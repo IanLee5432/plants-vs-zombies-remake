@@ -1,0 +1,47 @@
+{
+    "name": "Make with code",
+    "description": "",
+    "dependencies": {
+        "device": "*",
+        "arcade-sprite-data": "github:microsoft/arcade-sprite-data#v0.2.1",
+        "Timers": "github:microsoft/arcade-timers#v1.1.0",
+        "browser-events": "*"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "assets.json",
+        "tilemap.g.jres",
+        "tilemap.g.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "target": "2.0.56",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj",
+    "palette": [
+        "#000000",
+        "#f4f4f4",
+        "#b13e53",
+        "#134720",
+        "#ef7d57",
+        "#ffcd75",
+        "#257179",
+        "#116125",
+        "#29366f",
+        "#3b5dc9",
+        "#41a6f6",
+        "#566c86",
+        "#333c57",
+        "#94b0c2",
+        "#70B882",
+        "#1a1c2c"
+    ]
+}
