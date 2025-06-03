@@ -23,7 +23,7 @@ function spawn_zombie () {
         `, SpriteKind.Enemy)
     sprites.setDataNumber(Normal_Zombie, "Health", 3)
     tiles.placeOnTile(Normal_Zombie, tiles.getTileLocation(10, randint(1, 5)))
-    Normal_Zombie.setVelocity(-5, 0)
+    Normal_Zombie.setVelocity(-3, 0)
 }
 // Fix delay logic
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -46,6 +46,11 @@ function Level1 () {
     timer.after(15000, function () {
         for (let index = 0; index <= 2; index++) {
             timer.after(index * 5000, function () {
+                spawn_zombie()
+            })
+        }
+        for (let index = 0; index <= 4; index++) {
+            timer.after(30000 + index * 5000, function () {
                 spawn_zombie()
             })
         }
