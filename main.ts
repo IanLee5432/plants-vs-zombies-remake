@@ -10,11 +10,18 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (placingPlant && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
         placingPlant = false
+        sprites.setDataBoolean(pea_shooter, "is_placed", false)
+    }
+    if (placingSunflower && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
+        placingSunflower = false
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.x += -16
 })
+function Followcursor (_type: string) {
+	
+}
 function Level1 () {
     difficulty = 10
     pause(100)
@@ -60,10 +67,11 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
     }
 })
 let projectile: Sprite = null
-let pea_shooter: Sprite = null
 let Sunflower: Sprite = null
 let Normal_Zombie: Sprite = null
 let difficulty = 0
+let placingSunflower = false
+let pea_shooter: Sprite = null
 let placingPlant = false
 let cursor: Sprite = null
 let money = 100
@@ -92,7 +100,7 @@ scene.cameraFollowSprite(cursor)
 // Makes the plant follow the cursor when the plant is picked up
 game.onUpdate(function () {
     // If placing, follow cursor
-    if (placingPlant && Sunflower) {
+    if (placingSunflower && Sunflower) {
         Sunflower.setPosition(cursor.x, cursor.y)
     }
     // If placing, follow cursor
@@ -102,7 +110,7 @@ game.onUpdate(function () {
 })
 // Pick up a plant
 game.onUpdate(function () {
-    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile5`) && !(placingPlant)) {
+    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && !(placingPlant)) {
         Sunflower = sprites.create(img`
             . . . . 5 5 5 5 5 . . . . . . . 
             . . . . 5 5 5 5 5 5 5 . . . . . 
@@ -121,9 +129,9 @@ game.onUpdate(function () {
             . . . . . . . . 3 . . . . . . . 
             . . . . . . . . 3 . . . . . . . 
             `, SpriteKind.plant)
-        placingPlant = true
+        placingSunflower = true
     }
-    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && !(placingPlant)) {
+    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && !(placingPlant)) {
         pea_shooter = sprites.create(img`
             . . . . . . . . . . . . . . . . 
             . . . . . 4 4 4 4 4 . . . . . . 
@@ -143,27 +151,30 @@ game.onUpdate(function () {
             . . . . . 4 4 . . . . . . . . . 
             `, SpriteKind.pea_shooter_plant)
         placingPlant = true
+        sprites.setDataBoolean(pea_shooter, "is_placed", true)
     }
 })
-game.onUpdateInterval(500, function () {
+game.onUpdateInterval(1500, function () {
     for (let value of sprites.allOfKind(SpriteKind.pea_shooter_plant)) {
-        projectile = sprites.createProjectileFromSprite(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . a a a a a . a . . . 
-            . . . . . . a a . a a a a . . . 
-            . . . . . a a a a a a a a . . . 
-            . . . . . a a a a a a a a . . . 
-            . . . . a a a a a a a . a . . . 
-            . . . . a a a a a a a . a . . . 
-            . . . . a a a a a a a a . . . . 
-            . . . . . a a a a a a . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, value, 50, 0)
+        if (!(sprites.readDataBoolean(value, "is_placed"))) {
+            projectile = sprites.createProjectileFromSprite(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . a a a a a . a . . . 
+                . . . . . . a a . a a a a . . . 
+                . . . . . a a a a a a a a . . . 
+                . . . . . a a a a a a a a . . . 
+                . . . . a a a a a a a . a . . . 
+                . . . . a a a a a a a . a . . . 
+                . . . . a a a a a a a a . . . . 
+                . . . . . a a a a a a . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, value, 50, 0)
+        }
     }
 })
