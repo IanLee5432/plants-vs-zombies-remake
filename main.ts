@@ -56,6 +56,150 @@ function Level1 () {
         }
     })
 }
+
+
+
+
+//--------------------THESE ARE THE FUNCTIONS TO CREATE THE NEW CHARACTER SPRITES AND ENEMY SPRITES!!!!!----------------------//
+
+
+
+
+/*function initializeEnemyCharacters () {
+    chickenJockey = sprites.create(img`
+        . . . . . . . 3 3 3 3 3 . . . . 
+        . . 1 1 1 1 1 7 f 7 f 7 . . . . 
+        1 . 1 f 1 1 1 7 7 7 7 7 . . . . 
+        . . 1 1 1 1 1 . d d d . . . . . 
+        5 5 5 1 1 1 1 7 7 d 7 . . . . . 
+        5 5 5 1 1 1 1 . d d 7 . . . . . 
+        4 4 4 1 1 1 1 8 d d d 1 1 1 . . 
+        . 2 1 1 1 1 1 1 8 8 8 1 1 1 . . 
+        . 2 1 1 1 1 1 8 8 8 1 1 1 1 . . 
+        . 2 1 1 1 1 1 8 8 8 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 . . . 
+        . . . . 5 . . . 5 . . . . . . . 
+        . . . . 5 . . . 5 . . . . . . . 
+        . . . 5 5 . . 5 5 . . . . . . . 
+        `, SpriteKind.Enemy)
+    creeperAwwMan = sprites.create(img`
+        . . . . . d d d d d . . . . . . 
+        . . . . . f f d f f . . . . . . 
+        . . . . . d d d d d . . . . . . 
+        . . . . . d f f f d . . . . . . 
+        . . . . . . . d . . . . . . . . 
+        . . . . . . . d . . . . . . . . 
+        . . . . d d d d d d d . . 2 2 . 
+        . . . . d d . d . d d . 1 . 2 . 
+        . . . d . d d d d d . d 1 . 2 . 
+        . . . d . d . d . d . d 1 . 2 . 
+        . . d . . d d d d d . . 1 . 2 . 
+        . . . . . . . d . . . . 1 . 2 . 
+        . . . . . . d d d . . . 1 . 2 . 
+        . . . . . . d d d . . . . 2 2 . 
+        . . . . . . d d d . . . . . . . 
+        . . . . . . d d d . . . . . . . 
+        `, SpriteKind.Enemy)
+    creeperAwwMan = sprites.create(img`
+        . . . . 2 6 6 2 e 1 4 e . . . . 
+        . . . . 1 f f 2 4 f f 1 . . . . 
+        . . . . 6 f 8 2 e 8 f 1 . . . . 
+        . . . . 2 2 6 4 2 4 4 4 . . . . 
+        . . . . e 2 4 f f 4 2 2 . . . . 
+        . . . . 1 2 f 2 4 f 4 4 . . . . 
+        . . . . e 4 f 4 4 f e 2 . . . . 
+        . . . . . . 2 4 4 4 . . . . . . 
+        . . . . . . 4 4 4 1 . . . . . . 
+        . . . . . . 1 4 2 4 . . . . . . 
+        . . . . . . 4 2 4 4 . . . . . . 
+        . . . . . . 4 4 4 1 . . . . . . 
+        . . . . . . 4 4 2 e . . . . . . 
+        . . . . . 4 1 4 4 2 e . . . . . 
+        . . . . . 4 4 2 2 e 1 . . . . . 
+        . . . . . d f 4 4 f d . . . . . 
+        `, SpriteKind.Enemy)
+    spiderSprite = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f b b f f f f f b . 
+        . . f f b f b f f f f b b b f . 
+        . . b 8 f 8 f b f b f f f f f . 
+        . . b f b f b f f f f f f b b . 
+        . . f 1 f 1 b f b f f f b b f . 
+        . . . . b f f b f f b f b f f . 
+        . . . . . f . . f . . f . f . . 
+        `, SpriteKind.Enemy)
+    mrHerobrine = sprites.create(img`
+        . . . . f f f f f f f . . . . . 
+        . . . . f f c c c f f . . . . . 
+        . . . . f 1 1 c 1 1 f . . . . . 
+        . . . . c c c c c c c . . . . . 
+        . . . . c c f f f c c . . . . . 
+        . . . a a a a a a a a a . . . . 
+        . . . a a a a a a a a a . . . . 
+        . . . c c a a a a a c c . . . . 
+        . . . c c a a a a a c c . . . . 
+        . . . c c a a a a a c c . . . . 
+        . . . c c a a a a a c c . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . f f f f f . . . . . . 
+        `, SpriteKind.Enemy)
+}*/
+/*function initializePlantCharacters () {
+
+    ironGolem = sprites.create(img`
+        . . . . . 1 1 1 1 . . . . . . . 
+        . . . . . 8 1 1 8 . . . . . . . 
+        . . . . . 1 1 1 1 . . . . . . . 
+        . . . . . 1 1 1 1 . . . . . . . 
+        . . 1 1 1 1 1 1 1 1 1 1 . . . . 
+        . . 1 f 1 1 f 1 1 1 1 1 . . . . 
+        . . 1 1 1 f 1 1 1 1 f 1 . . . . 
+        . . 1 1 1 1 1 1 f 1 1 1 . . . . 
+        . . 1 1 1 1 1 1 1 1 1 1 . . . . 
+        . . 1 f 1 1 f 1 1 1 1 1 . . . . 
+        . . 1 1 1 1 1 1 f 1 f 1 . . . . 
+        . . 1 1 1 1 f 1 1 1 1 1 . . . . 
+        . . 1 1 f 1 1 1 1 1 1 1 . . . . 
+        . . . . . 1 1 . 1 1 . . . . . . 
+        . . . . . 1 1 . 1 1 . . . . . . 
+        . . . . . 1 1 . 1 1 . . . . . . 
+        `, SpriteKind.Player)
+    ironGolem = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . 8 f f f f f f f f f f f f 8 . 
+        . f d b d d d d 5 d d d d b f . 
+        . f 5 d b d d d d d d d b d f . 
+        . f 5 d d b d d 5 d d b d d f . 
+        . f d d d b b d d d b d 5 d f . 
+        . f d d d d b d d b d d d d f . 
+        . f 5 d 5 d d f f d d 5 d d f . 
+        . f d d d d d f f d d d d d f . 
+        . f d d 5 d b d d b d d d 5 f . 
+        . f 5 d d b d d d d b d d d f . 
+        . f d d b d d 5 d 5 d b d d f . 
+        . f d b d d d d d d d d b d f . 
+        . f b d d 5 d d d d 5 d d b f . 
+        . 8 f f f f f f f f f f f f 8 . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Player)
+}*/
+
+
+
+
 // fix cursor going off screen
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.x += 16
