@@ -2,6 +2,29 @@ namespace SpriteKind {
     export const plant = SpriteKind.create()
     export const pea_shooter_plant = SpriteKind.create()
 }
+function spawn_zombie () {
+    Normal_Zombie = sprites.create(img`
+        . . . . . . 4 4 4 4 . . . . . . 
+        . . . . 4 4 f 4 4 f 4 4 . . . . 
+        . . . 4 e e e f f e e 4 4 . . . 
+        . . 4 . . e 2 e e 2 e . . 4 . . 
+        . . . . . e e e e e e . . . . . 
+        . . . . . e f e f f e . . . . . 
+        . . . . . . e f f e f . . . . . 
+        . . . . . . . e . . 2 . . . . . 
+        . . . e e e e e . . . 2 . . . . 
+        . . . . . . e e . . . . . . . . 
+        . . . . . . . e . . . . . . . . 
+        . . . . . . e e . . . . . . . . 
+        . . . . . e e e e . . . . . . . 
+        . . . . e e . . e . . . . . . . 
+        . . . . e . . . . e e . . . . . 
+        . . . . e . . . . . e e . . . . 
+        `, SpriteKind.Enemy)
+    sprites.setDataNumber(Normal_Zombie, "Health", 3)
+    tiles.placeOnTile(Normal_Zombie, tiles.getTileLocation(10, randint(1, 5)))
+    Normal_Zombie.setVelocity(-5, 0)
+}
 // Fix delay logic
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.y += -16
@@ -19,38 +42,14 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.x += -16
 })
-function Followcursor (_type: string) {
-	
-}
 function Level1 () {
-    difficulty = 10
-    pause(100)
-    for (let index = 0; index < 4; index++) {
-        Normal_Zombie = sprites.create(img`
-            . . . . . . 4 4 4 4 . . . . . . 
-            . . . . 4 4 f 4 4 f 4 4 . . . . 
-            . . . 4 e e e f f e e 4 4 . . . 
-            . . 4 . . e 2 e e 2 e . . 4 . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . . e f e f f e . . . . . 
-            . . . . . . e f f e f . . . . . 
-            . . . . . . . e . . 2 . . . . . 
-            . . . e e e e e . . . 2 . . . . 
-            . . . . . . e e . . . . . . . . 
-            . . . . . . . e . . . . . . . . 
-            . . . . . . e e . . . . . . . . 
-            . . . . . e e e e . . . . . . . 
-            . . . . e e . . e . . . . . . . 
-            . . . . e . . . . e e . . . . . 
-            . . . . e . . . . . e e . . . . 
-            `, SpriteKind.Enemy)
-        sprites.setDataNumber(Normal_Zombie, "Health", 3)
-        tiles.placeOnTile(Normal_Zombie, tiles.getTileLocation(10, randint(1, 5)))
-        Normal_Zombie.setVelocity(-5, 0)
-        timer.after(500, function () {
-        	
-        })
-    }
+    timer.after(15000, function () {
+        for (let index = 0; index <= 2; index++) {
+            timer.after(index * 5000, function () {
+                spawn_zombie()
+            })
+        }
+    })
 }
 // fix cursor going off screen
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -68,11 +67,10 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 })
 let projectile: Sprite = null
 let Sunflower: Sprite = null
-let Normal_Zombie: Sprite = null
-let difficulty = 0
 let placingSunflower = false
 let pea_shooter: Sprite = null
 let placingPlant = false
+let Normal_Zombie: Sprite = null
 let cursor: Sprite = null
 let money = 100
 tiles.setCurrentTilemap(tilemap`level1`)
