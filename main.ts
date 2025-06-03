@@ -44,13 +44,13 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 function Level1 () {
     timer.after(15000, function () {
-        for (let index = 0; index <= 2; index++) {
+        for (let index = 0; index <= 1; index++) {
             timer.after(index * 5000, function () {
                 spawn_zombie()
             })
         }
         for (let index = 0; index <= 4; index++) {
-            timer.after(30000 + index * 5000, function () {
+            timer.after(20000 + index * 5000, function () {
                 spawn_zombie()
             })
         }
