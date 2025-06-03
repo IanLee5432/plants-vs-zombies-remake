@@ -11,6 +11,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (placingPlant && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
         placingPlant = false
     }
+    if (placingSunflower && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
+        placingSunflower = false
+    }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.x += -16
@@ -64,6 +67,7 @@ let pea_shooter: Sprite = null
 let Sunflower: Sprite = null
 let Normal_Zombie: Sprite = null
 let difficulty = 0
+let placingSunflower = false
 let placingPlant = false
 let cursor: Sprite = null
 let money = 100
@@ -92,7 +96,7 @@ scene.cameraFollowSprite(cursor)
 // Makes the plant follow the cursor when the plant is picked up
 game.onUpdate(function () {
     // If placing, follow cursor
-    if (placingPlant && Sunflower) {
+    if (placingSunflower && Sunflower) {
         Sunflower.setPosition(cursor.x, cursor.y)
     }
     // If placing, follow cursor
@@ -102,7 +106,7 @@ game.onUpdate(function () {
 })
 // Pick up a plant
 game.onUpdate(function () {
-    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile5`) && !(placingPlant)) {
+    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && !(placingPlant)) {
         Sunflower = sprites.create(img`
             . . . . 5 5 5 5 5 . . . . . . . 
             . . . . 5 5 5 5 5 5 5 . . . . . 
@@ -121,9 +125,9 @@ game.onUpdate(function () {
             . . . . . . . . 3 . . . . . . . 
             . . . . . . . . 3 . . . . . . . 
             `, SpriteKind.plant)
-        placingPlant = true
+        placingSunflower = true
     }
-    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && !(placingPlant)) {
+    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && !(placingPlant)) {
         pea_shooter = sprites.create(img`
             . . . . . . . . . . . . . . . . 
             . . . . . 4 4 4 4 4 . . . . . . 
