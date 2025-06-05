@@ -4,22 +4,22 @@ namespace SpriteKind {
 }
 function spawn_zombie () {
     Normal_Zombie = sprites.create(img`
-        . . . . . . 4 4 4 4 . . . . . . 
-        . . . . 4 4 f 4 4 f 4 4 . . . . 
-        . . . 4 e e e f f e e 4 4 . . . 
-        . . 4 . . e 2 e e 2 e . . 4 . . 
-        . . . . . e e e e e e . . . . . 
-        . . . . . e f e f f e . . . . . 
-        . . . . . . e f f e f . . . . . 
-        . . . . . . . e . . 2 . . . . . 
-        . . . e e e e e . . . 2 . . . . 
-        . . . . . . e e . . . . . . . . 
-        . . . . . . . e . . . . . . . . 
-        . . . . . . e e . . . . . . . . 
-        . . . . . e e e e . . . . . . . 
-        . . . . e e . . e . . . . . . . 
-        . . . . e . . . . e e . . . . . 
-        . . . . e . . . . . e e . . . . 
+        . . . . . . . 3 3 3 3 3 . . . . 
+        . . 1 1 1 1 1 7 f 7 f 7 . . . . 
+        1 . 1 f 1 1 1 7 7 7 7 7 . . . . 
+        . . 1 1 1 1 1 . d d d . . . . . 
+        5 5 5 1 1 1 1 7 7 d 7 . . . . . 
+        5 5 5 1 1 1 1 . d d 7 . . . . . 
+        4 4 4 1 1 1 1 8 d d d 1 1 1 . . 
+        . 2 1 1 1 1 1 1 8 8 8 1 1 1 . . 
+        . 2 1 1 1 1 1 8 8 8 1 1 1 1 . . 
+        . 2 1 1 1 1 1 8 8 8 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 . . . 
+        . . . . 5 . . . 5 . . . . . . . 
+        . . . . 5 . . . 5 . . . . . . . 
+        . . . 5 5 . . 5 5 . . . . . . .  
         `, SpriteKind.Enemy)
     sprites.setDataNumber(Normal_Zombie, "Health", 3)
     tiles.placeOnTile(Normal_Zombie, tiles.getTileLocation(10, randint(1, 5)))
@@ -259,43 +259,43 @@ game.onUpdate(function () {
 game.onUpdate(function () {
     if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && !(placingPlant)) {
         Sunflower = sprites.create(img`
-            . . . . 5 5 5 5 5 . . . . . . . 
-            . . . . 5 5 5 5 5 5 5 . . . . . 
-            . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
-            . 5 5 5 5 5 5 f 5 5 5 5 5 5 . . 
-            . 5 5 5 5 5 f f f 5 5 5 . 5 . . 
-            . . 5 5 5 5 5 f f 5 5 5 5 . . . 
-            . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
-            . . 5 5 5 5 5 5 5 5 5 5 . . . . 
-            . . . . 5 5 5 5 5 5 5 5 . . . . 
-            . . . . . 5 5 5 5 5 5 . . . . . 
-            . . . . . . 5 5 5 5 . . . . . . 
-            . . . . . . . . 3 . . . . . . . 
-            . . . . . . . . 3 . . . . . . . 
-            . . . . . . . . 3 . . . . . . . 
-            . . . . . . . . 3 . . . . . . . 
-            . . . . . . . . 3 . . . . . . . 
+            . . 4 5 5 5 5 5 5 . . . . . . . 
+    . . 5 5 5 7 5 5 5 5 4 . . . . . 
+    . 5 5 5 7 5 5 7 5 5 5 . . . . . 
+    5 5 7 5 e e e 5 5 5 5 . . . . . 
+    5 5 7 d e d e e 5 7 5 4 . . . . 
+    7 7 e e e d e e e 5 5 . . . . . 
+    5 5 7 e d e e e 5 5 5 4 . . . . 
+    5 5 5 5 e e e d 5 7 5 . . . . . 
+    4 5 5 7 5 7 5 5 5 5 5 . . . . . 
+    . 4 5 5 5 5 5 5 7 5 . . . . . . 
+    . . . . . 4 7 4 . . . . . . . . 
+    . . . . . . 7 . . . . . . . . . 
+    . 7 7 . . . 7 . . . . 7 7 . . . 
+    . . 7 7 7 . 7 . 7 7 7 7 . . . . 
+    . . . . . 7 7 7 7 . . . . . . . 
+    . . . . . . 7 . . . . . . . . . 
             `, SpriteKind.plant)
         placingSunflower = true
     }
     if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && !(placingPlant)) {
         pea_shooter = sprites.create(img`
             . . . . . . . . . . . . . . . . 
-            . . . . . 4 4 4 4 4 . . . . . . 
-            . . . . . 4 4 4 4 4 . . . . . . 
-            . . . 4 4 4 4 4 4 4 4 4 4 . . . 
-            . . . 4 4 4 4 4 4 4 . . . . . . 
-            . . . 4 4 4 4 4 4 4 . . . . . . 
-            . . . 4 4 4 4 4 4 4 4 4 4 . . . 
-            . . . . 4 4 4 4 4 4 4 . . . . . 
-            . . . . 4 4 4 4 4 4 . . . . . . 
-            . . . . 4 4 4 4 4 4 . . . . . . 
-            . . . . 4 4 4 4 4 4 . . . . . . 
-            . . . . 4 4 4 4 4 . . . . . . . 
-            . . . . 4 4 4 4 . . . . . . . . 
-            . . . . 4 4 4 . . . . . . . . . 
-            . . . . 4 4 4 . . . . . . . . . 
-            . . . . . 4 4 . . . . . . . . . 
+        . 8 f f f f f f f f f f f f 8 . 
+        . f d b d d d d 5 d d d d b f . 
+        . f 5 d b d d d d d d d b d f . 
+        . f 5 d d b d d 5 d d b d d f . 
+        . f d d d b b d d d b d 5 d f . 
+        . f d d d d b d d b d d d d f . 
+        . f 5 d 5 d d f f d d 5 d d f . 
+        . f d d d d d f f d d d d d f . 
+        . f d d 5 d b d d b d d d 5 f . 
+        . f 5 d d b d d d d b d d d f . 
+        . f d d b d d 5 d 5 d b d d f . 
+        . f d b d d d d d d d d b d f . 
+        . f b d d 5 d d d d 5 d d b f . 
+        . 8 f f f f f f f f f f f f 8 . 
+        . . . . . . . . . . . . . . . . 
             `, SpriteKind.pea_shooter_plant)
         placingPlant = true
         sprites.setDataBoolean(pea_shooter, "is_placed", true)
@@ -306,21 +306,21 @@ game.onUpdateInterval(1500, function () {
         if (!(sprites.readDataBoolean(value, "is_placed"))) {
             projectile = sprites.createProjectileFromSprite(img`
                 . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . a a a a a . a . . . 
-                . . . . . . a a . a a a a . . . 
-                . . . . . a a a a a a a a . . . 
-                . . . . . a a a a a a a a . . . 
-                . . . . a a a a a a a . a . . . 
-                . . . . a a a a a a a . a . . . 
-                . . . . a a a a a a a a . . . . 
-                . . . . . a a a a a a . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    8 . . . . . . 8 8 8 8 8 . . . . 
+    . . . 8 8 8 8 8 6 9 9 8 8 . . . 
+    . . 8 8 8 8 9 9 9 9 6 9 8 . . . 
+    . 8 . . 8 9 9 9 9 9 9 6 8 . . . 
+    . . . . 8 9 9 9 6 9 9 6 8 . . . 
+    . . . 8 8 9 9 9 9 9 9 6 8 . . . 
+    8 8 8 . 8 9 9 9 9 9 6 9 8 . . . 
+    8 . . . 8 8 9 9 9 6 9 8 8 . . . 
+    . . . . . 8 8 8 8 8 8 8 . . . . 
+    8 8 8 8 8 8 . . 8 8 . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . 8 8 . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
                 `, value, 50, 0)
         }
     }
