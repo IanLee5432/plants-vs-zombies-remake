@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const plant = SpriteKind.create()
     export const pea_shooter_plant = SpriteKind.create()
+    export const moneycounterclass = SpriteKind.create()
 }
 function spawn_zombie () {
     Normal_Zombie = sprites.create(img`
@@ -21,7 +22,7 @@ function spawn_zombie () {
         . . . . e . . . . e e . . . . . 
         . . . . e . . . . . e e . . . . 
         `, SpriteKind.Enemy)
-    sprites.setDataNumber(Normal_Zombie, "Health", 3)
+    sprites.setDataNumber(Normal_Zombie, "Health", 16)
     tiles.placeOnTile(Normal_Zombie, tiles.getTileLocation(10, randint(1, 5)))
     Normal_Zombie.setVelocity(-3, 0)
 }
@@ -43,14 +44,29 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.x += -16
 })
 function Level1 () {
-    timer.after(15000, function () {
-        for (let index = 0; index <= 1; index++) {
-            timer.after(index * 5000, function () {
-                spawn_zombie()
-            })
-        }
-        for (let index = 0; index <= 4; index++) {
-            timer.after(20000 + index * 5000, function () {
+    // early wave
+    for (let index = 0; index <= 4; index++) {
+        timer.after(index * 10000 + 30000, function () {
+            spawn_zombie()
+        })
+    }
+    // middle waves
+    // 
+    for (let index = 0; index <= 2; index++) {
+        timer.after(90000 + index * 1500, function () {
+            for (let index = 0; index <= 1; index++) {
+                timer.after(index * 1000, function () {
+                    spawn_zombie()
+                })
+            }
+        })
+    }
+    timer.after(180000, function () {
+        game.showLongText("A huge wave of zombies is approaching", DialogLayout.Bottom)
+    })
+    timer.after(190000, function () {
+        for (let index = 0; index <= 7; index++) {
+            timer.after(index * 1500, function () {
                 spawn_zombie()
             })
         }
@@ -77,7 +93,7 @@ let pea_shooter: Sprite = null
 let placingPlant = false
 let Normal_Zombie: Sprite = null
 let cursor: Sprite = null
-let money = 100
+let money = 1000
 tiles.setCurrentTilemap(tilemap`level1`)
 cursor = sprites.create(img`
     . . . . . . . . . . . . . . . . 
@@ -100,6 +116,28 @@ cursor = sprites.create(img`
 tiles.placeOnTile(cursor, tiles.getTileLocation(0, 0))
 Level1()
 scene.cameraFollowSprite(cursor)
+let money_counter = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.moneycounterclass)
+tiles.placeOnTile(money_counter, tiles.getTileLocation(8, 1))
+game.onUpdate(function () {
+    money_counter.sayText(money, 500, false)
+})
 // Makes the plant follow the cursor when the plant is picked up
 game.onUpdate(function () {
     // If placing, follow cursor
@@ -113,51 +151,57 @@ game.onUpdate(function () {
 })
 // Pick up a plant
 game.onUpdate(function () {
-    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && !(placingPlant)) {
-        Sunflower = sprites.create(img`
-            . . . . 5 5 5 5 5 . . . . . . . 
-            . . . . 5 5 5 5 5 5 5 . . . . . 
-            . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
-            . 5 5 5 5 5 5 f 5 5 5 5 5 5 . . 
-            . 5 5 5 5 5 f f f 5 5 5 . 5 . . 
-            . . 5 5 5 5 5 f f 5 5 5 5 . . . 
-            . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
-            . . 5 5 5 5 5 5 5 5 5 5 . . . . 
-            . . . . 5 5 5 5 5 5 5 5 . . . . 
-            . . . . . 5 5 5 5 5 5 . . . . . 
-            . . . . . . 5 5 5 5 . . . . . . 
-            . . . . . . . . 3 . . . . . . . 
-            . . . . . . . . 3 . . . . . . . 
-            . . . . . . . . 3 . . . . . . . 
-            . . . . . . . . 3 . . . . . . . 
-            . . . . . . . . 3 . . . . . . . 
-            `, SpriteKind.plant)
-        placingSunflower = true
+    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && (!(placingSunflower) && !(placingPlant))) {
+        if (money >= 50 && !(placingSunflower)) {
+            Sunflower = sprites.create(img`
+                . . . . 5 5 5 5 5 . . . . . . . 
+                . . . . 5 5 5 5 5 5 5 . . . . . 
+                . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
+                . 5 5 5 5 5 5 f 5 5 5 5 5 5 . . 
+                . 5 5 5 5 5 f f f 5 5 5 . 5 . . 
+                . . 5 5 5 5 5 f f 5 5 5 5 . . . 
+                . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
+                . . 5 5 5 5 5 5 5 5 5 5 . . . . 
+                . . . . 5 5 5 5 5 5 5 5 . . . . 
+                . . . . . 5 5 5 5 5 5 . . . . . 
+                . . . . . . 5 5 5 5 . . . . . . 
+                . . . . . . . . 3 . . . . . . . 
+                . . . . . . . . 3 . . . . . . . 
+                . . . . . . . . 3 . . . . . . . 
+                . . . . . . . . 3 . . . . . . . 
+                . . . . . . . . 3 . . . . . . . 
+                `, SpriteKind.plant)
+            placingSunflower = true
+            money += -50
+        }
     }
-    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && !(placingPlant)) {
-        pea_shooter = sprites.create(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . 4 4 4 4 4 . . . . . . 
-            . . . . . 4 4 4 4 4 . . . . . . 
-            . . . 4 4 4 4 4 4 4 4 4 4 . . . 
-            . . . 4 4 4 4 4 4 4 . . . . . . 
-            . . . 4 4 4 4 4 4 4 . . . . . . 
-            . . . 4 4 4 4 4 4 4 4 4 4 . . . 
-            . . . . 4 4 4 4 4 4 4 . . . . . 
-            . . . . 4 4 4 4 4 4 . . . . . . 
-            . . . . 4 4 4 4 4 4 . . . . . . 
-            . . . . 4 4 4 4 4 4 . . . . . . 
-            . . . . 4 4 4 4 4 . . . . . . . 
-            . . . . 4 4 4 4 . . . . . . . . 
-            . . . . 4 4 4 . . . . . . . . . 
-            . . . . 4 4 4 . . . . . . . . . 
-            . . . . . 4 4 . . . . . . . . . 
-            `, SpriteKind.pea_shooter_plant)
-        placingPlant = true
-        sprites.setDataBoolean(pea_shooter, "is_placed", true)
+    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && (!(placingSunflower) && !(placingPlant))) {
+        if (money >= 100 && !(placingPlant)) {
+            pea_shooter = sprites.create(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . 4 4 4 4 4 . . . . . . 
+                . . . . . 4 4 4 4 4 . . . . . . 
+                . . . 4 4 4 4 4 4 4 4 4 4 . . . 
+                . . . 4 4 4 4 4 4 4 . . . . . . 
+                . . . 4 4 4 4 4 4 4 . . . . . . 
+                . . . 4 4 4 4 4 4 4 4 4 4 . . . 
+                . . . . 4 4 4 4 4 4 4 . . . . . 
+                . . . . 4 4 4 4 4 4 . . . . . . 
+                . . . . 4 4 4 4 4 4 . . . . . . 
+                . . . . 4 4 4 4 4 4 . . . . . . 
+                . . . . 4 4 4 4 4 . . . . . . . 
+                . . . . 4 4 4 4 . . . . . . . . 
+                . . . . 4 4 4 . . . . . . . . . 
+                . . . . 4 4 4 . . . . . . . . . 
+                . . . . . 4 4 . . . . . . . . . 
+                `, SpriteKind.pea_shooter_plant)
+            placingPlant = true
+            money += -100
+            sprites.setDataBoolean(pea_shooter, "is_placed", true)
+        }
     }
 })
-game.onUpdateInterval(1500, function () {
+game.onUpdateInterval(1750, function () {
     for (let value of sprites.allOfKind(SpriteKind.pea_shooter_plant)) {
         if (!(sprites.readDataBoolean(value, "is_placed"))) {
             projectile = sprites.createProjectileFromSprite(img`
@@ -177,7 +221,7 @@ game.onUpdateInterval(1500, function () {
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
-                `, value, 50, 0)
+                `, value, 75, 0)
         }
     }
 })
