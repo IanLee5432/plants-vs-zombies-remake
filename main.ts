@@ -32,12 +32,18 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 // Placing the plants
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (cursor.overlapsWith(emerald)) {
+        sprites.destroy(emerald)
+        money += 25
+    }
     if (placingPlant && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
         placingPlant = false
         sprites.setDataBoolean(pea_shooter, "is_placed", false)
+        current_plant = ""
     }
-    if (placingSunflower && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
-        placingSunflower = false
+    if (placingPlant && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
+        placingPlant = false
+        current_plant = ""
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -51,7 +57,6 @@ function Level1 () {
         })
     }
     // middle waves
-    // 
     for (let index = 0; index <= 2; index++) {
         timer.after(90000 + index * 1500, function () {
             for (let index = 0; index <= 1; index++) {
@@ -88,9 +93,10 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 })
 let projectile: Sprite = null
 let Sunflower: Sprite = null
-let placingSunflower = false
+let current_plant = ""
 let pea_shooter: Sprite = null
 let placingPlant = false
+let emerald: Sprite = null
 let Normal_Zombie: Sprite = null
 let cursor: Sprite = null
 let money = 1000
@@ -141,18 +147,21 @@ game.onUpdate(function () {
 // Makes the plant follow the cursor when the plant is picked up
 game.onUpdate(function () {
     // If placing, follow cursor
-    if (placingSunflower && Sunflower) {
-        Sunflower.setPosition(cursor.x, cursor.y)
-    }
-    // If placing, follow cursor
-    if (placingPlant && pea_shooter) {
-        pea_shooter.setPosition(cursor.x, cursor.y)
+    if (placingPlant) {
+        // If placing, follow cursor
+        if (current_plant == "pea shooter") {
+            pea_shooter.setPosition(cursor.x, cursor.y)
+        }
+        // If placing, follow cursor
+        if (current_plant == "sunflower") {
+            Sunflower.setPosition(cursor.x, cursor.y)
+        }
     }
 })
 // Pick up a plant
 game.onUpdate(function () {
-    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && (!(placingSunflower) && !(placingPlant))) {
-        if (money >= 50 && !(placingSunflower)) {
+    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && !(placingPlant)) {
+        if (money >= 50 && !(placingPlant)) {
             Sunflower = sprites.create(img`
                 . . . . 5 5 5 5 5 . . . . . . . 
                 . . . . 5 5 5 5 5 5 5 . . . . . 
@@ -171,11 +180,12 @@ game.onUpdate(function () {
                 . . . . . . . . 3 . . . . . . . 
                 . . . . . . . . 3 . . . . . . . 
                 `, SpriteKind.plant)
-            placingSunflower = true
+            placingPlant = true
             money += -50
+            current_plant = "sunflower"
         }
     }
-    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && (!(placingSunflower) && !(placingPlant))) {
+    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && !(placingPlant)) {
         if (money >= 100 && !(placingPlant)) {
             pea_shooter = sprites.create(img`
                 . . . . . . . . . . . . . . . . 
@@ -198,6 +208,7 @@ game.onUpdate(function () {
             placingPlant = true
             money += -100
             sprites.setDataBoolean(pea_shooter, "is_placed", true)
+            current_plant = "pea shooter"
         }
     }
 })
@@ -224,4 +235,25 @@ game.onUpdateInterval(1750, function () {
                 `, value, 75, 0)
         }
     }
+})
+game.onUpdateInterval(randint(8000, 12000), function () {
+    emerald = sprites.createProjectileFromSide(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 7 7 7 7 . . . . . . 
+        . . . . . 7 1 e 7 7 3 . . . . . 
+        . . . . 7 1 e e e 7 7 3 . . . . 
+        . . . 7 1 e e e e e e 7 3 . . . 
+        . . . 7 e e e 1 e e e 7 3 . . . 
+        . . . 7 e e e 1 e e e 7 3 . . . 
+        . . . 7 e e e 1 e e e 7 3 . . . 
+        . . . 7 e e e 1 e e 7 7 3 . . . 
+        . . . 7 e e 1 e e 7 7 7 3 . . . 
+        . . . . 7 e e e 7 7 7 3 . . . . 
+        . . . . . 7 e e 3 3 3 . . . . . 
+        . . . . . . 7 3 3 3 . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, 0, 10)
+    tiles.placeOnTile(emerald, tiles.getTileLocation(randint(1, 9), 0))
 })
