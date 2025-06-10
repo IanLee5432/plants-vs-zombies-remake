@@ -48,8 +48,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
     if (placingPlant && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
         placingPlant = false
-        current_plant = ""
         sprites.setDataBoolean(Snow_Golem, "is_placed", true)
+        current_plant = ""
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -102,6 +102,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 })
 let Sunflower: Sprite = null
 let projectile: Sprite = null
+let Snowball: Sprite = null
 let Snow_Golem: Sprite = null
 let current_plant = ""
 let pea_shooter: Sprite = null
@@ -155,6 +156,31 @@ game.onUpdate(function () {
     money_counter.sayText(money, 500, false)
 })
 game.onUpdate(function () {
+    for (let value of sprites.allOfKind(SpriteKind.Snow_golem_class)) {
+        if (sprites.readDataBoolean(value, "is_placed")) {
+            if (sprites.readDataNumber(value, "next_shoot_time") <= game.runtime()) {
+                Snowball = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . 1 1 1 1 1 . 1 . . . 
+                    . . . . . . 1 1 . 1 1 1 1 . . . 
+                    . . . . . 1 1 1 1 1 1 1 1 . . . 
+                    . . . . . 1 1 1 1 1 1 1 1 . . . 
+                    . . . . 1 1 1 1 1 1 1 . 1 . . . 
+                    . . . . 1 1 1 1 1 1 1 . 1 . . . 
+                    . . . . 1 1 1 1 1 1 1 1 . . . . 
+                    . . . . . 1 1 1 1 1 1 . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, value, 75, 0)
+                sprites.setDataNumber(value, "next_shoot_time", game.runtime() + randint(1700, 2000))
+            }
+        }
+    }
     for (let value of sprites.allOfKind(SpriteKind.pea_shooter_plant)) {
         if (sprites.readDataBoolean(value, "is_placed")) {
             if (sprites.readDataNumber(value, "next_shoot_time") <= game.runtime()) {
@@ -273,6 +299,7 @@ game.onUpdate(function () {
                 placingPlant = true
                 money += -175
                 sprites.setDataBoolean(Snow_Golem, "is_placed", false)
+                sprites.setDataNumber(Snow_Golem, "next_shoot_time", game.runtime() + randint(1700, 2000))
                 current_plant = "snow golem"
             }
         }
