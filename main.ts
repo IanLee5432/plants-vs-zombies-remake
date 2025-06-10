@@ -2,6 +2,7 @@ namespace SpriteKind {
     export const plant = SpriteKind.create()
     export const pea_shooter_plant = SpriteKind.create()
     export const moneycounterclass = SpriteKind.create()
+    export const Snow_golem_class = SpriteKind.create()
 }
 function spawn_zombie () {
     Normal_Zombie = sprites.create(img`
@@ -38,12 +39,17 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
     if (placingPlant && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
         placingPlant = false
-        sprites.setDataBoolean(pea_shooter, "is_placed", false)
+        sprites.setDataBoolean(pea_shooter, "is_placed", true)
         current_plant = ""
     }
     if (placingPlant && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
         placingPlant = false
         current_plant = ""
+    }
+    if (placingPlant && (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile1`) || cursor.tileKindAt(TileDirection.Center, assets.tile`myTile0`))) {
+        placingPlant = false
+        current_plant = ""
+        sprites.setDataBoolean(Snow_Golem, "is_placed", true)
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -57,10 +63,10 @@ function Level1 () {
         })
     }
     // middle waves
-    for (let index = 0; index <= 2; index++) {
-        timer.after(90000 + index * 1500, function () {
-            for (let index = 0; index <= 1; index++) {
-                timer.after(index * 1000, function () {
+    for (let index2 = 0; index2 <= 2; index2++) {
+        timer.after(90000 + index2 * 1500, function () {
+            for (let index3 = 0; index3 <= 1; index3++) {
+                timer.after(index3 * 1000, function () {
                     spawn_zombie()
                 })
             }
@@ -70,12 +76,15 @@ function Level1 () {
         game.showLongText("A huge wave of zombies is approaching", DialogLayout.Bottom)
     })
     timer.after(190000, function () {
-        for (let index = 0; index <= 7; index++) {
-            timer.after(index * 1500, function () {
+        for (let index4 = 0; index4 <= 7; index4++) {
+            timer.after(index4 * 1500, function () {
                 spawn_zombie()
             })
         }
     })
+}
+function level2 () {
+    tiles.setTileAt(tiles.getTileLocation(3, 0), assets.tile`myTile8`)
 }
 // fix cursor going off screen
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -91,8 +100,9 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
         sprites.destroy(otherSprite)
     }
 })
-let projectile: Sprite = null
 let Sunflower: Sprite = null
+let projectile: Sprite = null
+let Snow_Golem: Sprite = null
 let current_plant = ""
 let pea_shooter: Sprite = null
 let placingPlant = false
@@ -144,6 +154,33 @@ tiles.placeOnTile(money_counter, tiles.getTileLocation(8, 1))
 game.onUpdate(function () {
     money_counter.sayText(money, 500, false)
 })
+game.onUpdate(function () {
+    for (let value of sprites.allOfKind(SpriteKind.pea_shooter_plant)) {
+        if (sprites.readDataBoolean(value, "is_placed")) {
+            if (sprites.readDataNumber(value, "next_shoot_time") <= game.runtime()) {
+                projectile = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . a a a a a . a . . . 
+                    . . . . . . a a . a a a a . . . 
+                    . . . . . a a a a a a a a . . . 
+                    . . . . . a a a a a a a a . . . 
+                    . . . . a a a a a a a . a . . . 
+                    . . . . a a a a a a a . a . . . 
+                    . . . . a a a a a a a a . . . . 
+                    . . . . . a a a a a a . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, value, 75, 0)
+                sprites.setDataNumber(value, "next_shoot_time", game.runtime() + randint(1700, 2000))
+            }
+        }
+    }
+})
 // Makes the plant follow the cursor when the plant is picked up
 game.onUpdate(function () {
     // If placing, follow cursor
@@ -156,83 +193,88 @@ game.onUpdate(function () {
         if (current_plant == "sunflower") {
             Sunflower.setPosition(cursor.x, cursor.y)
         }
+        // If placing, follow cursor
+        if (current_plant == "snow golem") {
+            Snow_Golem.setPosition(cursor.x, cursor.y)
+        }
     }
 })
 // Pick up a plant
 game.onUpdate(function () {
-    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && !(placingPlant)) {
-        if (money >= 50 && !(placingPlant)) {
-            Sunflower = sprites.create(img`
-                . . . . 5 5 5 5 5 . . . . . . . 
-                . . . . 5 5 5 5 5 5 5 . . . . . 
-                . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
-                . 5 5 5 5 5 5 f 5 5 5 5 5 5 . . 
-                . 5 5 5 5 5 f f f 5 5 5 . 5 . . 
-                . . 5 5 5 5 5 f f 5 5 5 5 . . . 
-                . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
-                . . 5 5 5 5 5 5 5 5 5 5 . . . . 
-                . . . . 5 5 5 5 5 5 5 5 . . . . 
-                . . . . . 5 5 5 5 5 5 . . . . . 
-                . . . . . . 5 5 5 5 . . . . . . 
-                . . . . . . . . 3 . . . . . . . 
-                . . . . . . . . 3 . . . . . . . 
-                . . . . . . . . 3 . . . . . . . 
-                . . . . . . . . 3 . . . . . . . 
-                . . . . . . . . 3 . . . . . . . 
-                `, SpriteKind.plant)
-            placingPlant = true
-            money += -50
-            current_plant = "sunflower"
-        }
-    }
-    if (controller.A.isPressed() && cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && !(placingPlant)) {
-        if (money >= 100 && !(placingPlant)) {
-            pea_shooter = sprites.create(img`
-                . . . . . . . . . . . . . . . . 
-                . . . . . 4 4 4 4 4 . . . . . . 
-                . . . . . 4 4 4 4 4 . . . . . . 
-                . . . 4 4 4 4 4 4 4 4 4 4 . . . 
-                . . . 4 4 4 4 4 4 4 . . . . . . 
-                . . . 4 4 4 4 4 4 4 . . . . . . 
-                . . . 4 4 4 4 4 4 4 4 4 4 . . . 
-                . . . . 4 4 4 4 4 4 4 . . . . . 
-                . . . . 4 4 4 4 4 4 . . . . . . 
-                . . . . 4 4 4 4 4 4 . . . . . . 
-                . . . . 4 4 4 4 4 4 . . . . . . 
-                . . . . 4 4 4 4 4 . . . . . . . 
-                . . . . 4 4 4 4 . . . . . . . . 
-                . . . . 4 4 4 . . . . . . . . . 
-                . . . . 4 4 4 . . . . . . . . . 
-                . . . . . 4 4 . . . . . . . . . 
-                `, SpriteKind.pea_shooter_plant)
-            placingPlant = true
-            money += -100
-            sprites.setDataBoolean(pea_shooter, "is_placed", true)
-            current_plant = "pea shooter"
-        }
-    }
-})
-game.onUpdateInterval(1750, function () {
-    for (let value of sprites.allOfKind(SpriteKind.pea_shooter_plant)) {
-        if (!(sprites.readDataBoolean(value, "is_placed"))) {
-            projectile = sprites.createProjectileFromSprite(img`
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . a a a a a . a . . . 
-                . . . . . . a a . a a a a . . . 
-                . . . . . a a a a a a a a . . . 
-                . . . . . a a a a a a a a . . . 
-                . . . . a a a a a a a . a . . . 
-                . . . . a a a a a a a . a . . . 
-                . . . . a a a a a a a a . . . . 
-                . . . . . a a a a a a . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                `, value, 75, 0)
+    if (controller.A.isPressed() && !(placingPlant)) {
+        if (!(placingPlant)) {
+            if (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && money >= 50) {
+                Sunflower = sprites.create(img`
+                    . . . . 5 5 5 5 5 . . . . . . . 
+                    . . . . 5 5 5 5 5 5 5 . . . . . 
+                    . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
+                    . 5 5 5 5 5 5 f 5 5 5 5 5 5 . . 
+                    . 5 5 5 5 5 f f f 5 5 5 . 5 . . 
+                    . . 5 5 5 5 5 f f 5 5 5 5 . . . 
+                    . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
+                    . . 5 5 5 5 5 5 5 5 5 5 . . . . 
+                    . . . . 5 5 5 5 5 5 5 5 . . . . 
+                    . . . . . 5 5 5 5 5 5 . . . . . 
+                    . . . . . . 5 5 5 5 . . . . . . 
+                    . . . . . . . . 3 . . . . . . . 
+                    . . . . . . . . 3 . . . . . . . 
+                    . . . . . . . . 3 . . . . . . . 
+                    . . . . . . . . 3 . . . . . . . 
+                    . . . . . . . . 3 . . . . . . . 
+                    `, SpriteKind.plant)
+                placingPlant = true
+                money += -50
+                current_plant = "sunflower"
+            }
+            if (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && money >= 100) {
+                pea_shooter = sprites.create(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . 4 4 4 4 4 . . . . . . 
+                    . . . . . 4 4 4 4 4 . . . . . . 
+                    . . . 4 4 4 4 4 4 4 4 4 4 . . . 
+                    . . . 4 4 4 4 4 4 4 . . . . . . 
+                    . . . 4 4 4 4 4 4 4 . . . . . . 
+                    . . . 4 4 4 4 4 4 4 4 4 4 . . . 
+                    . . . . 4 4 4 4 4 4 4 . . . . . 
+                    . . . . 4 4 4 4 4 4 . . . . . . 
+                    . . . . 4 4 4 4 4 4 . . . . . . 
+                    . . . . 4 4 4 4 4 4 . . . . . . 
+                    . . . . 4 4 4 4 4 . . . . . . . 
+                    . . . . 4 4 4 4 . . . . . . . . 
+                    . . . . 4 4 4 . . . . . . . . . 
+                    . . . . 4 4 4 . . . . . . . . . 
+                    . . . . . 4 4 . . . . . . . . . 
+                    `, SpriteKind.pea_shooter_plant)
+                placingPlant = true
+                money += -100
+                sprites.setDataBoolean(pea_shooter, "is_placed", false)
+                sprites.setDataNumber(pea_shooter, "next_shoot_time", game.runtime() + randint(1700, 2000))
+                current_plant = "pea shooter"
+            }
+            if (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile8`) && money >= 175) {
+                Snow_Golem = sprites.create(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
+                    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
+                    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
+                    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
+                    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    `, SpriteKind.Snow_golem_class)
+                placingPlant = true
+                money += -175
+                sprites.setDataBoolean(Snow_Golem, "is_placed", false)
+                current_plant = "snow golem"
+            }
         }
     }
 })
