@@ -6,6 +6,10 @@ namespace SpriteKind {
     export const Emerald_Class = SpriteKind.create()
     export const snowball_class = SpriteKind.create()
 }
+/**
+ * Makes an array of all of the zombies
+ */
+// Makes an Array of all of the plants
 function Create_Plant_Array () {
     all_plants = []
     for (let value of sprites.allOfKind(SpriteKind.sunflower)) {
@@ -335,7 +339,7 @@ game.onUpdate(function () {
                 money += -50
                 current_plant = "sunflower"
                 sprites.setDataNumber(Sunflower, "next_generation_time", game.runtime() + randint(5000, 8000))
-                sprites.setDataNumber(Sunflower, "Health", 300)
+                sprites.setDataNumber(Sunflower, "Health", 10)
             }
             if (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && money >= 100) {
                 pea_shooter = sprites.create(img`
@@ -360,7 +364,7 @@ game.onUpdate(function () {
                 money += -100
                 sprites.setDataBoolean(pea_shooter, "is_placed", false)
                 sprites.setDataNumber(pea_shooter, "next_shoot_time", game.runtime() + randint(1700, 2000))
-                sprites.setDataNumber(pea_shooter, "Health", 300)
+                sprites.setDataNumber(pea_shooter, "Health", 10)
                 current_plant = "pea shooter"
             }
             if (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile8`) && money >= 175) {
@@ -386,7 +390,7 @@ game.onUpdate(function () {
                 money += -175
                 sprites.setDataBoolean(Snow_Golem, "is_placed", false)
                 sprites.setDataNumber(Snow_Golem, "next_shoot_time", game.runtime() + randint(1700, 2000))
-                sprites.setDataNumber(Snow_Golem, "Health", 300)
+                sprites.setDataNumber(Snow_Golem, "Health", 10)
                 current_plant = "snow golem"
             }
         }
@@ -472,11 +476,13 @@ game.onUpdate(function () {
         }
     }
 })
+// Makes the zombies able to eat the plants
 game.onUpdate(function () {
     for (let value of Create_Zombie_Array()) {
         for (let val of Create_Plant_Array()) {
             if (value.overlapsWith(val)) {
                 sprites.changeDataNumberBy(val, "Health", -1)
+                value.x += sprites.readDataNumber(value, "Speed") * -1
             }
             if (sprites.readDataNumber(val, "Health") <= 0) {
                 sprites.destroy(val)
