@@ -342,6 +342,7 @@ game.onUpdate(function () {
                 `, SpriteKind.Emerald_Class)
             emerald.setPosition(value.x, value.y)
             emerald.setVelocity(0, 0)
+            emerald.setStayInScreen(false)
             sprites.setDataNumber(value, "next_generation_time", game.runtime() + randint(20000, 25000))
         }
     }
