@@ -5,10 +5,9 @@ namespace SpriteKind {
     export const Snow_golem_class = SpriteKind.create()
     export const Emerald_Class = SpriteKind.create()
     export const snowball_class = SpriteKind.create()
+    export const skeleton_class = SpriteKind.create()
+    export const skeleton_arrow = SpriteKind.create()
 }
-/**
- * Movement of Cursor
- */
 /**
  * Makes an array of all of the zombies
  */
@@ -26,33 +25,56 @@ function Create_Plant_Array () {
     }
     return all_plants
 }
-function spawn_zombie () {
-    Normal_Zombie = sprites.create(img`
-        . . . . 7 7 7 7 7 7 7 . . . . . 
-        . . . . 7 7 e e e 7 7 . . . . . 
-        . . . . 7 f f e f f 7 . . . . . 
-        . . . . e e e e e e e . . . . . 
-        . . . . e e f f f e e . . . . . 
-        . . . a a a a a a a a a . . . . 
-        . . . a a a a a a a a a . . . . 
-        . . . e e a a a a a e e . . . . 
-        . . . e e a a a a a e e . . . . 
-        . . . e e a a a a a e e . . . . 
-        . . . e e a a a a a e e . . . . 
-        . . . . . 9 9 9 9 9 . . . . . . 
-        . . . . . 9 9 9 9 9 . . . . . . 
-        . . . . . 9 9 9 9 9 . . . . . . 
-        . . . . . 9 9 9 9 9 . . . . . . 
-        . . . . . f f f f f . . . . . . 
-        `, SpriteKind.Enemy)
-    sprites.setDataNumber(Normal_Zombie, "Health", 11)
-    tiles.placeOnTile(Normal_Zombie, tiles.getTileLocation(10, randint(1, 5)))
-    sprites.setDataNumber(Normal_Zombie, "Speed", -2.5)
+function Spawn_skeleton () {
+    skeleton = sprites.create(img`
+        . . . . . d d d d d . . . . . . 
+        . . . . . f f d f f . . . . . . 
+        . . . . . d d d d d . . . . . . 
+        . . . . . d f f f d . . . . . . 
+        . . . . . . . d . . . . . . . . 
+        . . . . . . . d . . . . . . . . 
+        . . . . d d d d d d d . . 2 2 . 
+        . . . . d d . d . d d . 1 . 2 . 
+        . . . d . d d d d d . d 1 . 2 . 
+        . . . d . d . d . d . d 1 . 2 . 
+        . . d . . d d d d d . . 1 . 2 . 
+        . . . . . . . d . . . . 1 . 2 . 
+        . . . . . . d d d . . . 1 . 2 . 
+        . . . . . . d d d . . . . 2 2 . 
+        . . . . . . d d d . . . . . . . 
+        . . . . . . d d d . . . . . . . 
+        `, SpriteKind.skeleton_class)
+    sprites.setDataNumber(skeleton, "Health", 6)
+    tiles.placeOnTile(skeleton, tiles.getTileLocation(10, randint(1, 5)))
+    sprites.setDataNumber(skeleton, "Speed", -1)
 }
 // Fix delay logic
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.y += -16
 })
+function spawn_chicken_jockey () {
+    chickenJockey = sprites.create(img`
+        . . . . . . . 3 3 3 3 3 . . . . 
+        . . 1 1 1 1 1 7 f 7 f 7 . . . . 
+        1 . 1 f 1 1 1 7 7 7 7 7 . . . . 
+        . . 1 1 1 1 1 . d d d . . . . . 
+        5 5 5 1 1 1 1 7 7 d 7 . . . . . 
+        5 5 5 1 1 1 1 . d d 7 . . . . . 
+        4 4 4 1 1 1 1 8 d d d 1 1 1 . . 
+        . 2 1 1 1 1 1 1 8 8 8 1 1 1 . . 
+        . 2 1 1 1 1 1 8 8 8 1 1 1 1 . . 
+        . 2 1 1 1 1 1 8 8 8 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 . . . 
+        . . . . 5 . . . 5 . . . . . . . 
+        . . . . 5 . . . 5 . . . . . . . 
+        . . . 5 5 . . 5 5 . . . . . . . 
+        `, SpriteKind.Enemy)
+    sprites.setDataNumber(chickenJockey, "Health", 5)
+    tiles.placeOnTile(chickenJockey, tiles.getTileLocation(10, randint(1, 5)))
+    sprites.setDataNumber(chickenJockey, "Speed", -6)
+}
 // Placing the plants
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     for (let value22 of sprites.allOfKind(SpriteKind.Emerald_Class)) {
@@ -126,16 +148,17 @@ sprites.onOverlap(SpriteKind.snowball_class, SpriteKind.Enemy, function (sprite,
     }
 })
 function Level1 () {
+    spawn_chicken_jockey()
     // early wave
     for (let index = 0; index <= 4; index++) {
         timer.after(index * 15000 + 30000, function () {
-            spawn_zombie()
+            spawn_zombie2()
         })
     }
     // middle waves
     for (let index2 = 0; index2 <= 2; index2++) {
         timer.after(90000 + index2 * 1500, function () {
-            spawn_zombie()
+            spawn_zombie2()
         })
     }
     timer.after(180000, function () {
@@ -144,7 +167,7 @@ function Level1 () {
     timer.after(190000, function () {
         for (let index4 = 0; index4 <= 7; index4++) {
             timer.after(index4 * 1500, function () {
-                spawn_zombie()
+                spawn_zombie2()
             })
         }
     })
@@ -170,24 +193,6 @@ function EnemyCharacterInitialize () {
         . . . . 5 . . . 5 . . . . . . . 
         . . . . 5 . . . 5 . . . . . . . 
         . . . 5 5 . . 5 5 . . . . . . . 
-        `, SpriteKind.Enemy)
-    skeleton = sprites.create(img`
-        . . . . . d d d d d . . . . . . 
-        . . . . . f f d f f . . . . . . 
-        . . . . . d d d d d . . . . . . 
-        . . . . . d f f f d . . . . . . 
-        . . . . . . . d . . . . . . . . 
-        . . . . . . . d . . . . . . . . 
-        . . . . d d d d d d d . . 2 2 . 
-        . . . . d d . d . d d . 1 . 2 . 
-        . . . d . d d d d d . d 1 . 2 . 
-        . . . d . d . d . d . d 1 . 2 . 
-        . . d . . d d d d d . . 1 . 2 . 
-        . . . . . . . d . . . . 1 . 2 . 
-        . . . . . . d d d . . . 1 . 2 . 
-        . . . . . . d d d . . . . 2 2 . 
-        . . . . . . d d d . . . . . . . 
-        . . . . . . d d d . . . . . . . 
         `, SpriteKind.Enemy)
     creeperAwwMan = sprites.create(img`
         . . . . 2 6 6 2 e 1 4 e . . . . 
@@ -244,6 +249,14 @@ function EnemyCharacterInitialize () {
         . . . . . f f f f f . . . . . . 
         `, SpriteKind.Enemy)
 }
+sprites.onOverlap(SpriteKind.snowball_class, SpriteKind.skeleton_class, function (sprite, otherSprite) {
+    sprites.changeDataNumberBy(otherSprite, "Health", -1)
+    sprites.destroy(sprite)
+    sprites.setDataNumber(otherSprite, "Speed", -1)
+    if (sprites.readDataNumber(otherSprite, "Health") == 0) {
+        sprites.destroy(otherSprite)
+    }
+})
 // fix cursor going off screen
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.x += 16
@@ -251,9 +264,45 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.y += 16
 })
+function spawn_zombie2 () {
+    Normal_Zombie = sprites.create(img`
+        . . . . 7 7 7 7 7 7 7 . . . . . 
+        . . . . 7 7 e e e 7 7 . . . . . 
+        . . . . 7 f f e f f 7 . . . . . 
+        . . . . e e e e e e e . . . . . 
+        . . . . e e f f f e e . . . . . 
+        . . . a a a a a a a a a . . . . 
+        . . . a a a a a a a a a . . . . 
+        . . . e e a a a a a e e . . . . 
+        . . . e e a a a a a e e . . . . 
+        . . . e e a a a a a e e . . . . 
+        . . . e e a a a a a e e . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . f f f f f . . . . . . 
+        `, SpriteKind.Enemy)
+    sprites.setDataNumber(Normal_Zombie, "Health", 11)
+    tiles.placeOnTile(Normal_Zombie, tiles.getTileLocation(10, randint(1, 5)))
+    sprites.setDataNumber(Normal_Zombie, "Speed", -2.5)
+}
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.skeleton_class, function (sprite, otherSprite) {
+    sprites.changeDataNumberBy(otherSprite, "Health", -1)
+    sprites.destroy(sprite)
+    if (sprites.readDataNumber(otherSprite, "Health") == 0) {
+        sprites.destroy(otherSprite)
+    }
+})
+/**
+ * Movement of Cursor
+ */
 function Create_Zombie_Array () {
     all_zombies = []
     for (let value4 of sprites.allOfKind(SpriteKind.Enemy)) {
+        all_zombies.push(value4)
+    }
+    for (let value4 of sprites.allOfKind(SpriteKind.skeleton_class)) {
         all_zombies.push(value4)
     }
     return all_zombies
@@ -262,29 +311,53 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
     sprites.changeDataNumberBy(otherSprite, "Health", -1)
     sprites.destroy(sprite)
     if (sprites.readDataNumber(otherSprite, "Health") == 0) {
+        if (otherSprite == chickenJockey) {
+            Normal_Zombie = sprites.create(img`
+                . . . . 7 7 7 7 7 7 7 . . . . . 
+                . . . . 7 7 e e e 7 7 . . . . . 
+                . . . . 7 f f e f f 7 . . . . . 
+                . . . . e e e e e e e . . . . . 
+                . . . . e e f f f e e . . . . . 
+                . . . a a a a a a a a a . . . . 
+                . . . a a a a a a a a a . . . . 
+                . . . e e a a a a a e e . . . . 
+                . . . e e a a a a a e e . . . . 
+                . . . e e a a a a a e e . . . . 
+                . . . e e a a a a a e e . . . . 
+                . . . . . 9 9 9 9 9 . . . . . . 
+                . . . . . 9 9 9 9 9 . . . . . . 
+                . . . . . 9 9 9 9 9 . . . . . . 
+                . . . . . 9 9 9 9 9 . . . . . . 
+                . . . . . f f f f f . . . . . . 
+                `, SpriteKind.Enemy)
+            sprites.setDataNumber(Normal_Zombie, "Health", 11)
+            tiles.placeOnTile(Normal_Zombie, otherSprite.tilemapLocation())
+            sprites.setDataNumber(Normal_Zombie, "Speed", -2.5)
+        }
         sprites.destroy(otherSprite)
     }
 })
+let skeletonArrow: Sprite = null
 let emerald: Sprite = null
 let snowball: Sprite = null
 let projectile: Sprite = null
 let Sunflower: Sprite = null
 let all_zombies: Sprite[] = []
+let Normal_Zombie: Sprite = null
 let mrHerobrine: Sprite = null
 let spider: Sprite = null
 let creeperAwwMan: Sprite = null
-let skeleton: Sprite = null
-let chickenJockey: Sprite = null
 let dispenser: Sprite = null
 let ironGolem: Sprite = null
 let Snow_Golem: Sprite = null
 let pea_shooter: Sprite = null
 let current_plant = ""
 let placingPlant = false
-let Normal_Zombie: Sprite = null
+let chickenJockey: Sprite = null
+let skeleton: Sprite = null
 let all_plants: Sprite[] = []
 let cursor: Sprite = null
-let money = 25
+let money = 1000
 tiles.setCurrentTilemap(tilemap`level1`)
 cursor = sprites.create(img`
     . . . . . . . . . . . . . . . . 
@@ -540,6 +613,30 @@ game.onUpdate(function () {
                 sprites.destroy(val)
             }
         }
+    }
+})
+game.onUpdateInterval(2000, function () {
+    for (let value of sprites.allOfKind(SpriteKind.skeleton_class)) {
+        skeletonArrow = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . d d . 
+            . . . f . . . . . . . . d 1 1 . 
+            . . f . . . . . . . . d 1 1 . . 
+            . f . . . . . . . . . 1 1 . . . 
+            f 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+            . f . . . . . . . . . 1 1 . . . 
+            . . f . . . . . . . . d 1 1 . . 
+            . . . f . . . . . . . . d 1 1 . 
+            . . . . . . . . . . . . . d d . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.skeleton_arrow)
+        skeletonArrow.setPosition(value.x, value.y)
+        skeletonArrow.setVelocity(-50, 0)
     }
 })
 game.onUpdateInterval(randint(8000, 12000), function () {
