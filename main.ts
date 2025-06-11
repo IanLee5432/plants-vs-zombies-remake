@@ -28,22 +28,22 @@ function Create_Plant_Array () {
 }
 function spawn_zombie () {
     Normal_Zombie = sprites.create(img`
-        . . . . . . 4 4 4 4 . . . . . . 
-        . . . . 4 4 f 4 4 f 4 4 . . . . 
-        . . . 4 e e e f f e e 4 4 . . . 
-        . . 4 . . e 2 e e 2 e . . 4 . . 
-        . . . . . e e e e e e . . . . . 
-        . . . . . e f e f f e . . . . . 
-        . . . . . . e f f e f . . . . . 
-        . . . . . . . e . . 2 . . . . . 
-        . . . e e e e e . . . 2 . . . . 
-        . . . . . . e e . . . . . . . . 
-        . . . . . . . e . . . . . . . . 
-        . . . . . . e e . . . . . . . . 
-        . . . . . e e e e . . . . . . . 
-        . . . . e e . . e . . . . . . . 
-        . . . . e . . . . e e . . . . . 
-        . . . . e . . . . . e e . . . . 
+        . . . . 7 7 7 7 7 7 7 . . . . . 
+        . . . . 7 7 e e e 7 7 . . . . . 
+        . . . . 7 f f e f f 7 . . . . . 
+        . . . . e e e e e e e . . . . . 
+        . . . . e e f f f e e . . . . . 
+        . . . a a a a a a a a a . . . . 
+        . . . a a a a a a a a a . . . . 
+        . . . e e a a a a a e e . . . . 
+        . . . e e a a a a a e e . . . . 
+        . . . e e a a a a a e e . . . . 
+        . . . e e a a a a a e e . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . f f f f f . . . . . . 
         `, SpriteKind.Enemy)
     sprites.setDataNumber(Normal_Zombie, "Health", 11)
     tiles.placeOnTile(Normal_Zombie, tiles.getTileLocation(10, randint(1, 5)))
