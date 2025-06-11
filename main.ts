@@ -4,6 +4,7 @@ namespace SpriteKind {
     export const moneycounterclass = SpriteKind.create()
     export const Snow_golem_class = SpriteKind.create()
     export const Emerald_Class = SpriteKind.create()
+    export const snowball_class = SpriteKind.create()
 }
 function spawn_zombie () {
     Normal_Zombie = sprites.create(img`
@@ -58,17 +59,25 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.x += -16
 })
+sprites.onOverlap(SpriteKind.snowball_class, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.changeDataNumberBy(otherSprite, "Health", -1)
+    sprites.destroy(sprite)
+    sprites.setDataNumber(otherSprite, "Speed", -1)
+    if (sprites.readDataNumber(otherSprite, "Health") == 0) {
+        sprites.destroy(otherSprite)
+    }
+})
 function Level1 () {
     // early wave
     for (let index = 0; index <= 4; index++) {
-        timer.after(index * 10000 + 30000, function () {
+        timer.after(index * 15000 + 30000, function () {
             spawn_zombie()
         })
     }
     // middle waves
     for (let index2 = 0; index2 <= 2; index2++) {
         timer.after(90000 + index2 * 1500, function () {
-        	
+            spawn_zombie()
         })
     }
     timer.after(180000, function () {
@@ -287,7 +296,7 @@ game.onUpdate(function () {
     for (let value of sprites.allOfKind(SpriteKind.Snow_golem_class)) {
         if (sprites.readDataBoolean(value, "is_placed")) {
             if (sprites.readDataNumber(value, "next_shoot_time") <= game.runtime()) {
-                snowball = sprites.createProjectileFromSprite(img`
+                snowball = sprites.create(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -304,7 +313,9 @@ game.onUpdate(function () {
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
-                    `, value, 75, 0)
+                    `, SpriteKind.snowball_class)
+                snowball.setPosition(value.x, value.y)
+                snowball.setVelocity(75, 0)
                 sprites.setDataNumber(value, "next_shoot_time", game.runtime() + randint(1700, 2000))
             }
         }
