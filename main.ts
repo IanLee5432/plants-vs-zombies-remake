@@ -7,6 +7,9 @@ namespace SpriteKind {
     export const snowball_class = SpriteKind.create()
 }
 /**
+ * Movement of Cursor
+ */
+/**
  * Makes an array of all of the zombies
  */
 // Makes an Array of all of the plants
@@ -283,35 +286,6 @@ let money_counter = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.moneycounterclass)
 tiles.placeOnTile(money_counter, tiles.getTileLocation(8, 1))
-game.onUpdate(function () {
-    money_counter.sayText(money, 500, false)
-})
-game.onUpdate(function () {
-    for (let value22 of sprites.allOfKind(SpriteKind.Enemy)) {
-        value22.setVelocity(sprites.readDataNumber(value22, "Speed"), 0)
-    }
-})
-game.onUpdate(function () {
-	
-})
-// Makes the plant follow the cursor when the plant is picked up
-game.onUpdate(function () {
-    // If placing, follow cursor
-    if (placingPlant) {
-        // If placing, follow cursor
-        if (current_plant == "pea shooter") {
-            pea_shooter.setPosition(cursor.x, cursor.y)
-        }
-        // If placing, follow cursor
-        if (current_plant == "sunflower") {
-            Sunflower.setPosition(cursor.x, cursor.y)
-        }
-        // If placing, follow cursor
-        if (current_plant == "snow golem") {
-            Snow_Golem.setPosition(cursor.x, cursor.y)
-        }
-    }
-})
 // Pick up a plant
 game.onUpdate(function () {
     if (controller.A.isPressed() && !(placingPlant)) {
@@ -396,6 +370,36 @@ game.onUpdate(function () {
         }
     }
 })
+game.onUpdate(function () {
+    money_counter.sayText(money, 500, false)
+})
+game.onUpdate(function () {
+    for (let value22 of sprites.allOfKind(SpriteKind.Enemy)) {
+        value22.setVelocity(sprites.readDataNumber(value22, "Speed"), 0)
+    }
+})
+game.onUpdate(function () {
+	
+})
+// Makes the plant follow the cursor when the plant is picked up
+game.onUpdate(function () {
+    // If placing, follow cursor
+    if (placingPlant) {
+        // If placing, follow cursor
+        if (current_plant == "pea shooter") {
+            pea_shooter.setPosition(cursor.x, cursor.y)
+        }
+        // If placing, follow cursor
+        if (current_plant == "sunflower") {
+            Sunflower.setPosition(cursor.x, cursor.y)
+        }
+        // If placing, follow cursor
+        if (current_plant == "snow golem") {
+            Snow_Golem.setPosition(cursor.x, cursor.y)
+        }
+    }
+})
+// Makes the plants shoot stuff and the sunflowers generate emeralds
 game.onUpdate(function () {
     for (let value3 of sprites.allOfKind(SpriteKind.pea_shooter_plant)) {
         if (sprites.readDataBoolean(value3, "is_placed")) {
