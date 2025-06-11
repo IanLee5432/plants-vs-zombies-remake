@@ -358,21 +358,21 @@ game.onUpdate(function () {
             if (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && money >= 100) {
                 pea_shooter = sprites.create(img`
                     . . . . . . . . . . . . . . . . 
-                    . . . . . 4 4 4 4 4 . . . . . . 
-                    . . . . . 4 4 4 4 4 . . . . . . 
-                    . . . 4 4 4 4 4 4 4 4 4 4 . . . 
-                    . . . 4 4 4 4 4 4 4 . . . . . . 
-                    . . . 4 4 4 4 4 4 4 . . . . . . 
-                    . . . 4 4 4 4 4 4 4 4 4 4 . . . 
-                    . . . . 4 4 4 4 4 4 4 . . . . . 
-                    . . . . 4 4 4 4 4 4 . . . . . . 
-                    . . . . 4 4 4 4 4 4 . . . . . . 
-                    . . . . 4 4 4 4 4 4 . . . . . . 
-                    . . . . 4 4 4 4 4 . . . . . . . 
-                    . . . . 4 4 4 4 . . . . . . . . 
-                    . . . . 4 4 4 . . . . . . . . . 
-                    . . . . 4 4 4 . . . . . . . . . 
-                    . . . . . 4 4 . . . . . . . . . 
+                    . 8 f f f f f f f f f f f f 8 . 
+                    . f d b d d d d 5 d d d d b f . 
+                    . f 5 d b d d d d d d d b d f . 
+                    . f 5 d d b d d 5 d d b d d f . 
+                    . f d d d b b d d d b d 5 d f . 
+                    . f d d d d b d d b d d d d f . 
+                    . f 5 d 5 d d f f d d 5 d d f . 
+                    . f d d d d d f f d d d d d f . 
+                    . f d d 5 d b d d b d d d 5 f . 
+                    . f 5 d d b d d d d b d d d f . 
+                    . f d d b d d 5 d 5 d b d d f . 
+                    . f d b d d d d d d d d b d f . 
+                    . f b d d 5 d d d d 5 d d b f . 
+                    . 8 f f f f f f f f f f f f 8 . 
+                    . . . . . . . . . . . . . . . . 
                     `, SpriteKind.pea_shooter_plant)
                 placingPlant = true
                 money += -100
@@ -383,22 +383,22 @@ game.onUpdate(function () {
             }
             if (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile8`) && money >= 175) {
                 Snow_Golem = sprites.create(img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
-                    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
-                    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
-                    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
-                    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
-                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    . . . . 4 4 4 4 4 4 4 4 . . . . 
+                    . . . . 4 4 f 4 4 f 4 4 . . . . 
+                    . . . . 4 4 4 4 4 4 4 4 . . . . 
+                    . . . . 4 f 4 f 4 f 4 f . . . . 
+                    . . . . 4 4 f 4 f 4 f 4 . . . . 
+                    f . . . . 1 1 1 1 1 1 . . . . f 
+                    . f . . . 1 1 1 1 1 1 . . . f . 
+                    . . f f f 1 1 1 f 1 1 f f f . . 
+                    . f . . . 1 1 1 1 1 1 . . . f . 
+                    f . . . . 1 1 1 1 1 1 . . . . f 
+                    . . . . 1 1 1 1 f 1 1 1 . . . . 
+                    . . . . 1 1 1 1 1 1 1 1 . . . . 
+                    . . . . 1 1 1 1 1 1 1 1 . . . . 
+                    . . . . 1 1 1 1 f 1 1 1 . . . . 
+                    . . . . 1 1 1 1 1 1 1 1 . . . . 
+                    . . . . 1 1 1 1 1 1 1 1 . . . . 
                     `, SpriteKind.Snow_golem_class)
                 placingPlant = true
                 money += -175
@@ -456,15 +456,15 @@ game.onUpdate(function () {
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
-                    . . . . . . a a a a a . a . . . 
-                    . . . . . . a a . a a a a . . . 
-                    . . . . . a a a a a a a a . . . 
-                    . . . . . a a a a a a a a . . . 
-                    . . . . a a a a a a a . a . . . 
-                    . . . . a a a a a a a . a . . . 
-                    . . . . a a a a a a a a . . . . 
-                    . . . . . a a a a a a . . . . . 
-                    . . . . . . . . . . . . . . . . 
+                    . d d . . . . . . . . . . . . . 
+                    . 1 1 d . . . . . . . . f . . . 
+                    . . 1 1 d . . . . . . . . f . . 
+                    . . . 1 1 . . . . . . . . . f . 
+                    . . 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+                    . . . 1 1 . . . . . . . . . f . 
+                    . . 1 1 d . . . . . . . . f . . 
+                    . 1 1 d . . . . . . . . f . . . 
+                    . d d . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
