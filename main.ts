@@ -94,6 +94,98 @@ function Level1 () {
 function level2 () {
     tiles.setTileAt(tiles.getTileLocation(3, 0), assets.tile`myTile8`)
 }
+function EnemyCharacterInitialize () {
+    chickenJockey = sprites.create(img`
+        . . . . . . . 3 3 3 3 3 . . . . 
+        . . 1 1 1 1 1 7 f 7 f 7 . . . . 
+        1 . 1 f 1 1 1 7 7 7 7 7 . . . . 
+        . . 1 1 1 1 1 . d d d . . . . . 
+        5 5 5 1 1 1 1 7 7 d 7 . . . . . 
+        5 5 5 1 1 1 1 . d d 7 . . . . . 
+        4 4 4 1 1 1 1 8 d d d 1 1 1 . . 
+        . 2 1 1 1 1 1 1 8 8 8 1 1 1 . . 
+        . 2 1 1 1 1 1 8 8 8 1 1 1 1 . . 
+        . 2 1 1 1 1 1 8 8 8 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 . . . 
+        . . . . 5 . . . 5 . . . . . . . 
+        . . . . 5 . . . 5 . . . . . . . 
+        . . . 5 5 . . 5 5 . . . . . . . 
+        `, SpriteKind.Enemy)
+    skeleton = sprites.create(img`
+        . . . . . d d d d d . . . . . . 
+        . . . . . f f d f f . . . . . . 
+        . . . . . d d d d d . . . . . . 
+        . . . . . d f f f d . . . . . . 
+        . . . . . . . d . . . . . . . . 
+        . . . . . . . d . . . . . . . . 
+        . . . . d d d d d d d . . 2 2 . 
+        . . . . d d . d . d d . 1 . 2 . 
+        . . . d . d d d d d . d 1 . 2 . 
+        . . . d . d . d . d . d 1 . 2 . 
+        . . d . . d d d d d . . 1 . 2 . 
+        . . . . . . . d . . . . 1 . 2 . 
+        . . . . . . d d d . . . 1 . 2 . 
+        . . . . . . d d d . . . . 2 2 . 
+        . . . . . . d d d . . . . . . . 
+        . . . . . . d d d . . . . . . . 
+        `, SpriteKind.Enemy)
+    creeperAwwMan = sprites.create(img`
+        . . . . 2 6 6 2 e 1 4 e . . . . 
+        . . . . 1 f f 2 4 f f 1 . . . . 
+        . . . . 6 f 8 2 e 8 f 1 . . . . 
+        . . . . 2 2 6 4 2 4 4 4 . . . . 
+        . . . . e 2 4 f f 4 2 2 . . . . 
+        . . . . 1 2 f 2 4 f 4 4 . . . . 
+        . . . . e 4 f 4 4 f e 2 . . . . 
+        . . . . . . 2 4 4 4 . . . . . . 
+        . . . . . . 4 4 4 1 . . . . . . 
+        . . . . . . 1 4 2 4 . . . . . . 
+        . . . . . . 4 2 4 4 . . . . . . 
+        . . . . . . 4 4 4 1 . . . . . . 
+        . . . . . . 4 4 2 e . . . . . . 
+        . . . . . 4 1 4 4 2 e . . . . . 
+        . . . . . 4 4 2 2 e 1 . . . . . 
+        . . . . . d f 4 4 f d . . . . . 
+        `, SpriteKind.Enemy)
+    spider = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f b b f f f f f b . 
+        . . f f b f b f f f f b b b f . 
+        . . b 8 f 8 f b f b f f f f f . 
+        . . b f b f b f f f f f f b b . 
+        . . f 1 f 1 b f b f f f b b f . 
+        . . . . b f f b f f b f b f f . 
+        . . . . . f . . f . . f . f . . 
+        `, SpriteKind.Enemy)
+    mrHerobrine = sprites.create(img`
+        . . . . f f f f f f f . . . . . 
+        . . . . f f c c c f f . . . . . 
+        . . . . f 1 1 c 1 1 f . . . . . 
+        . . . . c c c c c c c . . . . . 
+        . . . . c c f f f c c . . . . . 
+        . . . a a a a a a a a a . . . . 
+        . . . a a a a a a a a a . . . . 
+        . . . c c a a a a a c c . . . . 
+        . . . c c a a a a a c c . . . . 
+        . . . c c a a a a a c c . . . . 
+        . . . c c a a a a a c c . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . 9 9 9 9 9 . . . . . . 
+        . . . . . f f f f f . . . . . . 
+        `, SpriteKind.Enemy)
+}
 // fix cursor going off screen
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.x += 16
@@ -112,6 +204,11 @@ let emerald: Sprite = null
 let snowball: Sprite = null
 let projectile: Sprite = null
 let Sunflower: Sprite = null
+let mrHerobrine: Sprite = null
+let spider: Sprite = null
+let creeperAwwMan: Sprite = null
+let skeleton: Sprite = null
+let chickenJockey: Sprite = null
 let Snow_Golem: Sprite = null
 let pea_shooter: Sprite = null
 let current_plant = ""
@@ -164,8 +261,8 @@ game.onUpdate(function () {
     money_counter.sayText(money, 500, false)
 })
 game.onUpdate(function () {
-    for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
-        value.setVelocity(sprites.readDataNumber(value, "Speed"), 0)
+    for (let value2 of sprites.allOfKind(SpriteKind.Enemy)) {
+        value2.setVelocity(sprites.readDataNumber(value2, "Speed"), 0)
     }
 })
 // Makes the plant follow the cursor when the plant is picked up
@@ -268,9 +365,9 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    for (let value of sprites.allOfKind(SpriteKind.pea_shooter_plant)) {
-        if (sprites.readDataBoolean(value, "is_placed")) {
-            if (sprites.readDataNumber(value, "next_shoot_time") <= game.runtime()) {
+    for (let value3 of sprites.allOfKind(SpriteKind.pea_shooter_plant)) {
+        if (sprites.readDataBoolean(value3, "is_placed")) {
+            if (sprites.readDataNumber(value3, "next_shoot_time") <= game.runtime()) {
                 projectile = sprites.createProjectileFromSprite(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -288,14 +385,14 @@ game.onUpdate(function () {
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
-                    `, value, 75, 0)
-                sprites.setDataNumber(value, "next_shoot_time", game.runtime() + randint(1700, 2000))
+                    `, value3, 75, 0)
+                sprites.setDataNumber(value3, "next_shoot_time", game.runtime() + randint(1700, 2000))
             }
         }
     }
-    for (let value of sprites.allOfKind(SpriteKind.Snow_golem_class)) {
-        if (sprites.readDataBoolean(value, "is_placed")) {
-            if (sprites.readDataNumber(value, "next_shoot_time") <= game.runtime()) {
+    for (let value4 of sprites.allOfKind(SpriteKind.Snow_golem_class)) {
+        if (sprites.readDataBoolean(value4, "is_placed")) {
+            if (sprites.readDataNumber(value4, "next_shoot_time") <= game.runtime()) {
                 snowball = sprites.create(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -314,14 +411,14 @@ game.onUpdate(function () {
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     `, SpriteKind.snowball_class)
-                snowball.setPosition(value.x, value.y)
+                snowball.setPosition(value4.x, value4.y)
                 snowball.setVelocity(75, 0)
-                sprites.setDataNumber(value, "next_shoot_time", game.runtime() + randint(1700, 2000))
+                sprites.setDataNumber(value4, "next_shoot_time", game.runtime() + randint(1700, 2000))
             }
         }
     }
-    for (let value of sprites.allOfKind(SpriteKind.sunflower)) {
-        if (sprites.readDataNumber(value, "next_generation_time") <= game.runtime()) {
+    for (let value5 of sprites.allOfKind(SpriteKind.sunflower)) {
+        if (sprites.readDataNumber(value5, "next_generation_time") <= game.runtime()) {
             emerald = sprites.create(img`
                 . . . . . . . . . . . . . . . . 
                 . . . . . . 7 7 7 7 . . . . . . 
@@ -340,10 +437,10 @@ game.onUpdate(function () {
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
                 `, SpriteKind.Emerald_Class)
-            emerald.setPosition(value.x, value.y)
+            emerald.setPosition(value5.x, value5.y)
             emerald.setVelocity(0, 0)
             emerald.setStayInScreen(false)
-            sprites.setDataNumber(value, "next_generation_time", game.runtime() + randint(20000, 25000))
+            sprites.setDataNumber(value5, "next_generation_time", game.runtime() + randint(20000, 25000))
         }
     }
 })
