@@ -399,6 +399,14 @@ game.onUpdate(function () {
         }
     }
 })
+// Checks if player loses
+game.onUpdate(function () {
+    for (let value of Create_Zombie_Array()) {
+        if (value.tileKindAt(TileDirection.Center, assets.tile`myTile`)) {
+            game.gameOver(false)
+        }
+    }
+})
 // Makes the plants shoot stuff and the sunflowers generate emeralds
 game.onUpdate(function () {
     for (let value3 of sprites.allOfKind(SpriteKind.pea_shooter_plant)) {
