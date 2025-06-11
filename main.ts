@@ -6,6 +6,19 @@ namespace SpriteKind {
     export const Emerald_Class = SpriteKind.create()
     export const snowball_class = SpriteKind.create()
 }
+function Create_Plant_Array () {
+    all_plants = []
+    for (let value of sprites.allOfKind(SpriteKind.sunflower)) {
+        all_plants.push(value)
+    }
+    for (let value of sprites.allOfKind(SpriteKind.pea_shooter_plant)) {
+        all_plants.push(value)
+    }
+    for (let value of sprites.allOfKind(SpriteKind.Snow_golem_class)) {
+        all_plants.push(value)
+    }
+    return all_plants
+}
 function spawn_zombie () {
     Normal_Zombie = sprites.create(img`
         . . . . . . 4 4 4 4 . . . . . . 
@@ -35,9 +48,9 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 // Placing the plants
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    for (let value of sprites.allOfKind(SpriteKind.Emerald_Class)) {
-        if (cursor.overlapsWith(value)) {
-            sprites.destroy(value)
+    for (let value2 of sprites.allOfKind(SpriteKind.Emerald_Class)) {
+        if (cursor.overlapsWith(value2)) {
+            sprites.destroy(value2)
             money += 25
         }
     }
@@ -193,6 +206,13 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     cursor.y += 16
 })
+function Create_Zombie_Array () {
+    all_zombies = []
+    for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
+        all_zombies.push(value)
+    }
+    return all_zombies
+}
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.changeDataNumberBy(otherSprite, "Health", -1)
     sprites.destroy(sprite)
@@ -204,6 +224,7 @@ let emerald: Sprite = null
 let snowball: Sprite = null
 let projectile: Sprite = null
 let Sunflower: Sprite = null
+let all_zombies: Sprite[] = []
 let mrHerobrine: Sprite = null
 let spider: Sprite = null
 let creeperAwwMan: Sprite = null
@@ -214,6 +235,7 @@ let pea_shooter: Sprite = null
 let current_plant = ""
 let placingPlant = false
 let Normal_Zombie: Sprite = null
+let all_plants: Sprite[] = []
 let cursor: Sprite = null
 let money = 25
 tiles.setCurrentTilemap(tilemap`level1`)
@@ -261,9 +283,12 @@ game.onUpdate(function () {
     money_counter.sayText(money, 500, false)
 })
 game.onUpdate(function () {
-    for (let value2 of sprites.allOfKind(SpriteKind.Enemy)) {
-        value2.setVelocity(sprites.readDataNumber(value2, "Speed"), 0)
+    for (let value22 of sprites.allOfKind(SpriteKind.Enemy)) {
+        value22.setVelocity(sprites.readDataNumber(value22, "Speed"), 0)
     }
+})
+game.onUpdate(function () {
+	
 })
 // Makes the plant follow the cursor when the plant is picked up
 game.onUpdate(function () {
@@ -310,6 +335,7 @@ game.onUpdate(function () {
                 money += -50
                 current_plant = "sunflower"
                 sprites.setDataNumber(Sunflower, "next_generation_time", game.runtime() + randint(5000, 8000))
+                sprites.setDataNumber(Sunflower, "Health", 300)
             }
             if (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile7`) && money >= 100) {
                 pea_shooter = sprites.create(img`
@@ -441,6 +467,18 @@ game.onUpdate(function () {
             emerald.setVelocity(0, 0)
             emerald.setStayInScreen(false)
             sprites.setDataNumber(value5, "next_generation_time", game.runtime() + randint(20000, 25000))
+        }
+    }
+})
+game.onUpdate(function () {
+    for (let value of Create_Zombie_Array()) {
+        for (let val of Create_Plant_Array()) {
+            if (value.overlapsWith(val)) {
+                sprites.changeDataNumberBy(val, "Health", -1)
+            }
+            if (sprites.readDataNumber(val, "Health") <= 0) {
+                sprites.destroy(val)
+            }
         }
     }
 })
