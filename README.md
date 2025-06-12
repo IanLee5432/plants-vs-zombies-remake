@@ -2,7 +2,7 @@
 This is a spinoff of plants vs zombies where all of the characters are based off of minecraft mobs. Fight your way through zombies, spiders, skeletons, chicken jockeys, and endermen, and finally fight a secret final boss. 
 
 
-> Play the game here at [https://arcade.makecode.com/S17257-12766-60200-71226)
+> Play the game here at https://arcade.makecode.com/S17257-12766-60200-71226 
 
 
 ### How to play
