@@ -148,27 +148,58 @@ sprites.onOverlap(SpriteKind.snowball_class, SpriteKind.Enemy, function (sprite,
     }
 })
 function Level1 () {
-    Spawn_skeleton()
-    // early wave
-    for (let index = 0; index <= 4; index++) {
-        timer.after(index * 15000 + 30000, function () {
-            spawn_zombie2()
-        })
-    }
-    // middle waves
-    for (let index2 = 0; index2 <= 2; index2++) {
-        timer.after(90000 + index2 * 1500, function () {
-            spawn_zombie2()
-        })
-    }
+    timer.after(25000, function () {
+        spawn_zombie2()
+    })
+    timer.after(56000, function () {
+        spawn_zombie2()
+    })
+    timer.after(72000, function () {
+        spawn_zombie2()
+    })
+    timer.after(96000, function () {
+        spawn_chicken_jockey()
+    })
+    timer.after(120000, function () {
+        spawn_chicken_jockey()
+        spawn_zombie2()
+    })
+    timer.after(152000, function () {
+        spawn_chicken_jockey()
+        spawn_chicken_jockey()
+    })
+    timer.after(167000, function () {
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+    })
     timer.after(180000, function () {
-        game.showLongText("A huge wave of zombies is approaching", DialogLayout.Bottom)
+        spawn_chicken_jockey()
+        spawn_chicken_jockey()
+        spawn_chicken_jockey()
+    })
+    timer.after(181000, function () {
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
     })
     timer.after(190000, function () {
-        for (let index4 = 0; index4 <= 7; index4++) {
-            timer.after(index4 * 1500, function () {
-                spawn_zombie2()
-            })
+        if (!(chickenJockey || Normal_Zombie)) {
+            level2()
+            return 0
+        }
+    })
+    timer.after(200000, function () {
+        if (!(chickenJockey || Normal_Zombie)) {
+            level2()
+            return 0
+        }
+    })
+    timer.after(210000, function () {
+        if (!(chickenJockey || Normal_Zombie)) {
+            level2()
+            return 0
         }
     })
 }
@@ -343,10 +374,10 @@ let snowball: Sprite = null
 let projectile: Sprite = null
 let Sunflower: Sprite = null
 let all_zombies: Sprite[] = []
-let Normal_Zombie: Sprite = null
 let mrHerobrine: Sprite = null
 let spider: Sprite = null
 let creeperAwwMan: Sprite = null
+let Normal_Zombie: Sprite = null
 let dispenser: Sprite = null
 let ironGolem: Sprite = null
 let Snow_Golem: Sprite = null
@@ -357,7 +388,7 @@ let chickenJockey: Sprite = null
 let skeleton: Sprite = null
 let all_plants: Sprite[] = []
 let cursor: Sprite = null
-let money = 1000
+let money = 50
 tiles.setCurrentTilemap(tilemap`level1`)
 cursor = sprites.create(img`
     . . . . . . . . . . . . . . . . 
@@ -405,22 +436,22 @@ game.onUpdate(function () {
         if (!(placingPlant)) {
             if (cursor.tileKindAt(TileDirection.Center, assets.tile`myTile6`) && money >= 50) {
                 Sunflower = sprites.create(img`
-                    . . . . 5 5 5 5 5 . . . . . . . 
-                    . . . . 5 5 5 5 5 5 5 . . . . . 
-                    . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
-                    . 5 5 5 5 5 5 f 5 5 5 5 5 5 . . 
-                    . 5 5 5 5 5 f f f 5 5 5 . 5 . . 
-                    . . 5 5 5 5 5 f f 5 5 5 5 . . . 
-                    . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
-                    . . 5 5 5 5 5 5 5 5 5 5 . . . . 
-                    . . . . 5 5 5 5 5 5 5 5 . . . . 
-                    . . . . . 5 5 5 5 5 5 . . . . . 
-                    . . . . . . 5 5 5 5 . . . . . . 
-                    . . . . . . . . 3 . . . . . . . 
-                    . . . . . . . . 3 . . . . . . . 
-                    . . . . . . . . 3 . . . . . . . 
-                    . . . . . . . . 3 . . . . . . . 
-                    . . . . . . . . 3 . . . . . . . 
+                    . . . . 4 4 4 4 4 4 4 . . . . . 
+                    . . . . 4 4 4 4 4 4 4 . . . . . 
+                    . . . . 4 a a 4 a a 4 . . . . . 
+                    . . . . 4 4 4 4 4 4 4 . . . . . 
+                    . . . . 4 4 5 5 5 4 4 . . . . . 
+                    . . . b b b 5 5 5 b b b . . . . 
+                    . . . b b b 5 5 5 b b b . . . . 
+                    . . . 4 4 b b b b b 4 4 . . . . 
+                    . . . 4 4 4 4 4 4 4 4 4 . . . . 
+                    . . . 4 4 4 4 4 4 4 4 4 . . . . 
+                    . . . . . b b b b b . . . . . . 
+                    . . . . . b b b b b . . . . . . 
+                    . . . . . b b b b b . . . . . . 
+                    . . . . . b b b b b . . . . . . 
+                    . . . . . b b b b b . . . . . . 
+                    . . . . . f f f f f . . . . . . 
                     `, SpriteKind.sunflower)
                 placingPlant = true
                 money += -50
@@ -602,7 +633,7 @@ game.onUpdate(function () {
             emerald.setPosition(value52.x, value52.y)
             emerald.setVelocity(0, 0)
             emerald.setStayInScreen(false)
-            sprites.setDataNumber(value52, "next_generation_time", game.runtime() + randint(20000, 25000))
+            sprites.setDataNumber(value52, "next_generation_time", game.runtime() + randint(25000, 30000))
         }
     }
 })
