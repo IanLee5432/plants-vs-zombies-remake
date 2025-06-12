@@ -46,7 +46,7 @@ function Spawn_skeleton () {
         `, SpriteKind.skeleton_class)
     sprites.setDataNumber(skeleton, "Health", 6)
     tiles.placeOnTile(skeleton, tiles.getTileLocation(10, randint(1, 5)))
-    sprites.setDataNumber(skeleton, "Speed", -1)
+    sprites.setDataNumber(skeleton, "Speed", -3)
 }
 // Fix delay logic
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -176,30 +176,15 @@ function Level1 () {
     })
     timer.after(180000, function () {
         spawn_chicken_jockey()
-        spawn_chicken_jockey()
-        spawn_chicken_jockey()
     })
     timer.after(181000, function () {
         spawn_zombie2()
         spawn_zombie2()
         spawn_zombie2()
     })
-    timer.after(190000, function () {
-        if (!(chickenJockey || Normal_Zombie)) {
-            level2()
-            return 0
-        }
-    })
     timer.after(200000, function () {
-        if (!(chickenJockey || Normal_Zombie)) {
+        if (Create_Zombie_Array().length == 0) {
             level2()
-            return 0
-        }
-    })
-    timer.after(210000, function () {
-        if (!(chickenJockey || Normal_Zombie)) {
-            level2()
-            return 0
         }
     })
 }
@@ -211,6 +196,61 @@ function level2 () {
     })
     timer.after(56000, function () {
         spawn_zombie2()
+    })
+    timer.after(72000, function () {
+        Spawn_skeleton()
+    })
+    timer.after(96000, function () {
+        spawn_chicken_jockey()
+        spawn_chicken_jockey()
+    })
+    timer.after(120000, function () {
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+    })
+    timer.after(122000, function () {
+        spawn_chicken_jockey()
+        Spawn_skeleton()
+        Spawn_skeleton()
+    })
+    timer.after(167000, function () {
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+    })
+    timer.after(170000, function () {
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+        spawn_zombie2()
+    })
+    timer.after(171000, function () {
+        spawn_chicken_jockey()
+        spawn_chicken_jockey()
+        spawn_chicken_jockey()
+        spawn_chicken_jockey()
+        spawn_chicken_jockey()
+        spawn_chicken_jockey()
+        spawn_chicken_jockey()
+    })
+    timer.after(172000, function () {
+        Spawn_skeleton()
+        Spawn_skeleton()
+        Spawn_skeleton()
+        Spawn_skeleton()
+        Spawn_skeleton()
+        Spawn_skeleton()
+    })
+    timer.after(200000, function () {
+        if (Create_Zombie_Array().length == 0) {
+            game.gameOver(true)
+        }
     })
 }
 function EnemyCharacterInitialize () {
@@ -381,10 +421,10 @@ let snowball: Sprite = null
 let projectile: Sprite = null
 let Sunflower: Sprite = null
 let all_zombies: Sprite[] = []
+let Normal_Zombie: Sprite = null
 let mrHerobrine: Sprite = null
 let spider: Sprite = null
 let creeperAwwMan: Sprite = null
-let Normal_Zombie: Sprite = null
 let dispenser: Sprite = null
 let ironGolem: Sprite = null
 let Snow_Golem: Sprite = null
@@ -417,7 +457,6 @@ cursor = sprites.create(img`
     `, SpriteKind.Player)
 tiles.placeOnTile(cursor, tiles.getTileLocation(0, 0))
 Level1()
-scene.cameraFollowSprite(cursor)
 let money_counter = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
