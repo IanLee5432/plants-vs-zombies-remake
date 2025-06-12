@@ -148,7 +148,7 @@ sprites.onOverlap(SpriteKind.snowball_class, SpriteKind.Enemy, function (sprite,
     }
 })
 function Level1 () {
-    spawn_chicken_jockey()
+    Spawn_skeleton()
     // early wave
     for (let index = 0; index <= 4; index++) {
         timer.after(index * 15000 + 30000, function () {
@@ -487,11 +487,6 @@ game.onUpdate(function () {
     money_counter.sayText(money, 500, false)
 })
 game.onUpdate(function () {
-    for (let value222 of sprites.allOfKind(SpriteKind.Enemy)) {
-        value222.setVelocity(sprites.readDataNumber(value222, "Speed"), 0)
-    }
-})
-game.onUpdate(function () {
 	
 })
 // Makes the plant follow the cursor when the plant is picked up
@@ -509,6 +504,16 @@ game.onUpdate(function () {
         // If placing, follow cursor
         if (current_plant == "snow golem") {
             Snow_Golem.setPosition(cursor.x, cursor.y)
+        }
+    }
+})
+game.onUpdate(function () {
+    for (let value222 of sprites.allOfKind(SpriteKind.Enemy)) {
+        value222.setVelocity(sprites.readDataNumber(value222, "Speed"), 0)
+    }
+    for (let value222 of sprites.allOfKind(SpriteKind.skeleton_class)) {
+        if (value222.x >= 140) {
+            value222.setVelocity(sprites.readDataNumber(value222, "Speed"), 0)
         }
     }
 })
@@ -614,29 +619,42 @@ game.onUpdate(function () {
             }
         }
     }
+    for (let value6 of sprites.allOfKind(SpriteKind.skeleton_arrow)) {
+        for (let val of Create_Plant_Array()) {
+            if (value6.overlapsWith(val)) {
+                sprites.changeDataNumberBy(val, "Health", -1)
+                sprites.destroy(value6)
+            }
+            if (sprites.readDataNumber(val, "Health") <= 0) {
+                sprites.destroy(val)
+            }
+        }
+    }
 })
 game.onUpdateInterval(2000, function () {
     for (let value of sprites.allOfKind(SpriteKind.skeleton_class)) {
-        skeletonArrow = sprites.create(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . d d . 
-            . . . f . . . . . . . . d 1 1 . 
-            . . f . . . . . . . . d 1 1 . . 
-            . f . . . . . . . . . 1 1 . . . 
-            f 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
-            . f . . . . . . . . . 1 1 . . . 
-            . . f . . . . . . . . d 1 1 . . 
-            . . . f . . . . . . . . d 1 1 . 
-            . . . . . . . . . . . . . d d . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, SpriteKind.skeleton_arrow)
-        skeletonArrow.setPosition(value.x, value.y)
-        skeletonArrow.setVelocity(-50, 0)
+        if (value.x < 130) {
+            skeletonArrow = sprites.create(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . d d . 
+                . . . f . . . . . . . . d 1 1 . 
+                . . f . . . . . . . . d 1 1 . . 
+                . f . . . . . . . . . 1 1 . . . 
+                f 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+                . f . . . . . . . . . 1 1 . . . 
+                . . f . . . . . . . . d 1 1 . . 
+                . . . f . . . . . . . . d 1 1 . 
+                . . . . . . . . . . . . . d d . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, SpriteKind.skeleton_arrow)
+            skeletonArrow.setPosition(value.x, value.y)
+            skeletonArrow.setVelocity(-50, 0)
+        }
     }
 })
 game.onUpdateInterval(randint(8000, 12000), function () {
