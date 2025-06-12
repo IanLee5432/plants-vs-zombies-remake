@@ -205,6 +205,13 @@ function Level1 () {
 }
 function level2 () {
     tiles.setTileAt(tiles.getTileLocation(3, 0), assets.tile`myTile8`)
+    game.splash("Level 2!")
+    timer.after(25000, function () {
+        spawn_zombie2()
+    })
+    timer.after(56000, function () {
+        spawn_zombie2()
+    })
 }
 function EnemyCharacterInitialize () {
     chickenJockey = sprites.create(img`
