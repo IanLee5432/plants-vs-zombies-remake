@@ -9,6 +9,9 @@ namespace SpriteKind {
     export const skeleton_arrow = SpriteKind.create()
 }
 /**
+ * Movement of Cursor
+ */
+/**
  * Makes an array of all of the zombies
  */
 // Makes an Array of all of the plants
@@ -372,9 +375,6 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.skeleton_class, function (sp
         sprites.destroy(otherSprite)
     }
 })
-/**
- * Movement of Cursor
- */
 function Create_Zombie_Array () {
     all_zombies = []
     for (let value4 of sprites.allOfKind(SpriteKind.Enemy)) {
